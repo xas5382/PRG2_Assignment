@@ -60,7 +60,7 @@ namespace S10257400_PRG2Assignment
 
         public override string ToString()
         {
-            return base.ToString() + waffleFlavour; 
+            return base.ToString() + "Waffle Flavour \n" +  $"- {waffleFlavour} \n"; 
         }
     }
 }

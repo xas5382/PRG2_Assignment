@@ -15,13 +15,7 @@ namespace S10257400_PRG2Assignment
             Queue<Order> regularQueue = new Queue<Order>();
             Queue<Order> goldQueue = new Queue<Order>();
 
-            List<string> iceCreamFlavourList = new List<string>();
-            iceCreamFlavourList.Add("Vanilla");
-            iceCreamFlavourList.Add("Chocolate");
-            iceCreamFlavourList.Add("Strawberry");
-            iceCreamFlavourList.Add("Durian");
-            iceCreamFlavourList.Add("Ube");
-            iceCreamFlavourList.Add("Sea Salt");
+            List<string> iceCreamFlavourList = new List<string> { "Vanilla", "Chocolate", "Strawberry", "Durian", "Ube", "Sea Salt" };
 
             bool correctFile = CreateCustomers(customerDict);
             
@@ -102,13 +96,13 @@ namespace S10257400_PRG2Assignment
                 {
                     DisplayCustomers(customerDict);
                     Customer customer = SelectCustomer(customerDict);
-                    Order customerOrder = customer.CurrentOrder;
 
-                    if (customerOrder != null)
+                    if (customer.CurrentOrder != null)
                     {
+                        Order customerOrder = customer.CurrentOrder;
                         Console.WriteLine();
                         Console.WriteLine($"Order for {customer.Name}");
-                        ListObjects(customerOrder);
+                        Console.WriteLine(customerOrder);
 
                         int optionChosen = OrderModificationMenu();
                         Console.WriteLine();
@@ -118,8 +112,12 @@ namespace S10257400_PRG2Assignment
                             int modificationChoice = IceCreamModificationMenu();
                             if (modificationChoice == 1) 
                             {
-                                ModifyType(customerOrder);
-                                ListObjects(customerOrder);
+                                ModifyType(customerOrder); 
+                                Console.WriteLine(customerOrder);
+                            }
+                            else if (modificationChoice == 2)
+                            {
+
                             }
                         }
                         else if (optionChosen == 2) 
@@ -152,6 +150,17 @@ namespace S10257400_PRG2Assignment
                                 {
                                     Console.WriteLine("Please reply with either \"Y\" or \"N\".");
                                 }
+                            }
+                        }
+                        else
+                        {
+                            if (customerOrder.IceCreamList.Count() == 1)
+                            {
+                                Console.WriteLine("You cannot have zero ice creams order in your order");
+                            }
+                            else
+                            {
+                                 
                             }
                         }
                     }
@@ -252,9 +261,6 @@ namespace S10257400_PRG2Assignment
 
         static void ListCurrentOrders(Queue<Order> regularQueue, Queue<Order>goldQueue)
         {
-            Console.WriteLine();
-            int i = 1;
-
             if (regularQueue.Count == 0)
             {
                 Console.WriteLine("There are no orders in the regular members queue.");
@@ -262,43 +268,13 @@ namespace S10257400_PRG2Assignment
             else
             {
                 Console.WriteLine("Queue System for Sliver and Ordinary Member(s)");
+                Console.WriteLine();
 
                 foreach (Order order in regularQueue)
                 {
-                    List<IceCream> iceCreamList = order.IceCreamList;
-
-                    foreach (IceCream iceCream in order.IceCreamList)
-                    {
-                        if (iceCream is Cup)
-                        {
-                            Console.WriteLine("{0,-7} {1,-11} {2,-8} {3,-14} {4,-42} {5}", "ID", "Timestamp", "Type", "Total Scoops", "Flavours(Scoops Per Flavour)", "Toppings");
-                        }
-                        else if (iceCream is Cone)
-                        {
-                            Console.WriteLine("{0,-7} {1,-11} {2,-8} {3,-14} {4,-42} {5,-31} {6}", "ID", "Timestamp", "Type", "Total Scoops", "Flavours(Scoops Per Flavour)", "Toppings", "Chocolate Cone?");
-                        }
-                        else if (iceCream is Waffle)
-                        {
-                            Console.WriteLine("{0,-7} {1,-11} {2,-8} {3,-14} {4,-42} {5,-31} {6}", "ID", "Timestamp", "Type", "Total Scoops", "Flavours(Scoops Per Flavour)", "Toppings", "Waffle Flavour");
-                        }
-
-                        if (iceCreamList.Count > 1)
-                        {
-                            Console.Write($"{order.Id:D2}/{i,-4:D2} {order.TimeReceived.ToString("t"),-12}");
-                            i++;
-                        }
-                        else
-                        {
-                            Console.Write($"{order.Id,-7:D2} {order.TimeReceived.ToString("t"),-12}");
-                        }
-                        
-                        Console.WriteLine(iceCream);
-                        Console.WriteLine();
-                    }
+                    Console.WriteLine(order);
                 }
             }
-
-            i = 1;
 
             if (goldQueue.Count == 0)
             {
@@ -308,38 +284,11 @@ namespace S10257400_PRG2Assignment
             {
                 Console.WriteLine("Queue System for Gold Member(s)");
 
-                foreach (Order order in goldQueue)
+                Console.WriteLine();
+
+                foreach (Order order in regularQueue)
                 {
-                    List<IceCream> iceCreamList = order.IceCreamList;
-
-                    foreach (IceCream iceCream in order.IceCreamList)
-                    {
-                        if (iceCream is Cup)
-                        {
-                            Console.WriteLine("{0,-7} {1,-11} {2,-8} {3,-14} {4,-42} {5}", "ID", "Timestamp", "Type", "Total Scoops", "Flavours(Scoops Per Flavour)", "Toppings");
-                        }
-                        else if (iceCream is Cone)
-                        {
-                            Console.WriteLine("{0,-7} {1,-11} {2,-8} {3,-14} {4,-42} {5,-31} {6}", "ID", "Timestamp", "Type", "Total Scoops", "Flavours(Scoops Per Flavour)", "Toppings", "Chocolate Cone?");
-                        }
-                        else if (iceCream is Waffle)
-                        {
-                            Console.WriteLine("{0,-7} {1,-11} {2,-8} {3,-14} {4,-42} {5,-31} {6}", "ID", "Timestamp", "Type", "Total Scoops", "Flavours(Scoops Per Flavour)", "Toppings", "Waffle Flavour");
-                        }
-
-                        if (iceCreamList.Count > 1)
-                        {
-                            Console.Write($"{order.Id:D2}/{i,-4:D2} {order.TimeReceived.ToString("t"),-12}");
-                            i++;
-                        }
-                        else
-                        {
-                            Console.Write($"{order.Id,-7:D2} {order.TimeReceived.ToString("t"),-12}");
-                        }
-
-                        Console.WriteLine(iceCream);
-                        Console.WriteLine();
-                    }
+                    Console.WriteLine(order);
                 }
             }
         }
@@ -377,151 +326,19 @@ namespace S10257400_PRG2Assignment
 
         static IceCream CreateCustomerOrder(Dictionary<int, Customer> customerDict, Customer customer, List<string> iceCreamFlavourList)
         {
-            Console.WriteLine("Types of Ice Cream Available");
-            Console.WriteLine("[1] Cup \n" + "[2] Cone \n" + "[3] Waffle");
-
-            string iceCreamOption;
-            while (true)
-            {
-                Console.Write("Enter type of ice cream desired: ");
-                iceCreamOption = Console.ReadLine();
-
-                if (iceCreamOption == "1")
-                {
-                    iceCreamOption = "Cup";
-                    break;
-                }
-                else if (iceCreamOption == "2")
-                {
-                    iceCreamOption = "Cone";
-                    break;
-                }
-                else if (iceCreamOption == "3")
-                {
-                    iceCreamOption = "Waffle";
-                    break;
-                }
-                else if (iceCreamOption.ToLower() != "cup" && iceCreamOption.ToLower() != "cone" && iceCreamOption.ToLower() != "waffle")
-                {
-                    Console.WriteLine("Please enter an available option that is shown above.");
-                }
-                else
-                {
-                    iceCreamOption = char.ToUpper(iceCreamOption[0]) + iceCreamOption.Substring(1);
-                    break;
-                }
-            }
-            
-            int scoopsOfIceCream;
-
-            while (true)
-            {
-                Console.Write("Enter number of scoops: ");
-                try 
-                {
-                    scoopsOfIceCream = Convert.ToInt32(Console.ReadLine());
-
-                    if (scoopsOfIceCream <= 0)
-                    {
-                        Console.WriteLine("You need to order at least 1 scoop of ice cream.");
-                    }
-                    else if (scoopsOfIceCream > 3)
-                    {
-                        Console.WriteLine("You can only order at most 3 scoops of ice cream.");
-                    }
-                    else
-                    {
-                        break;
-                    }
-                }
-                catch (FormatException)
-                {
-                    Console.WriteLine("Invalid number of ice cream scoops ordered. Please enter a quantity from 1 to 3.");
-                }
-            }
-            
-            Console.WriteLine();
+            string typeOfIceCream = GetIceCreamType();
+            int scoopsOfIceCream = GetNumScoopsOfIceCream();
 
             bool dippedCone = false;
             string waffleFlavour = null;
 
-            if (iceCreamOption.ToLower() == "cone")
+            if (typeOfIceCream.ToLower() == "cone")
             {
-                while (true)
-                {
-                    Console.Write("Do you upgrade your cone to a chocolate-dipped cone for an additional $2 [Y/N]? ");
-                    string chocoCone = Console.ReadLine();
-
-                    if (chocoCone.ToLower() == "y")
-                    {
-                        dippedCone = true;
-                        break;
-                    }
-                    else if (chocoCone.ToLower() == "n")
-                    {
-                        break;
-                    }
-                    else
-                    {
-                        Console.WriteLine("Please reply with either \"Y\" or \"N\".");
-                    }
-                }
+                dippedCone = GetDippedCone();
             }
-            else if (iceCreamOption.ToLower() == "waffle")
+            else if (typeOfIceCream.ToLower() == "waffle")
             {
-                Console.WriteLine("Types of Premium Waffle Flavours Available");
-                Console.WriteLine("[1] Red Velvet \n" + "[2] Charcoal \n" + "[3] Pandan");
-
-                while (true)
-                {
-                    Console.Write("Would you like to upgrade your waffle to one of our premium flavours for an additional cost of $3 [Y/N]? ");
-                    string premiumWaffle = Console.ReadLine();
-
-                    if (premiumWaffle.ToLower() == "y")
-                    {
-                        while (true)
-                        {
-                            Console.Write("Which flavour would you like? ");
-                            waffleFlavour = Console.ReadLine();
-
-                            if (waffleFlavour == "1")
-                            {
-                                waffleFlavour = "Red Velvet";
-                                break;
-                            }
-                            else if (waffleFlavour == "2")
-                            {
-                                waffleFlavour = "Charcoal";
-                                break;
-                            }
-                            else if (waffleFlavour == "3")
-                            {
-                                waffleFlavour = "Pandan";
-                                break;
-                            }
-                            else if (waffleFlavour.ToLower() != "red velvet" && waffleFlavour.ToLower() != "redvelvet" && waffleFlavour.ToLower() != "charcoal" && waffleFlavour.ToLower() != "pandan")
-                            {
-                                Console.WriteLine("Please enter an available option that is shown above");
-                            }
-                            else
-                            {
-                                waffleFlavour = char.ToUpper(waffleFlavour[0]) + waffleFlavour.Substring(1);
-                                break;
-                            }
-                        }
-
-                        break;
-                    }
-                    else if (premiumWaffle.ToLower() == "n")
-                    {
-                        waffleFlavour = "Original";
-                        break;
-                    }
-                    else
-                    {
-                        Console.WriteLine("Please reply with either \"Y\" or \"N\".");
-                    }
-                }
+                waffleFlavour = GetWaffleFlavour();
             }
 
             Console.WriteLine();
@@ -530,7 +347,6 @@ namespace S10257400_PRG2Assignment
 
             bool premiumIceCream = false;
             string chosenFlavour;
-            int orderedQuantity;
             int remainingScoops = scoopsOfIceCream;
 
             Console.WriteLine("Flavours of Ice Cream that are Available");
@@ -588,6 +404,7 @@ namespace S10257400_PRG2Assignment
                 }
 
                 bool enteredFlavoursForAllIceCream = false;
+                int orderedQuantity;
 
                 while (true)
                 {
@@ -704,55 +521,173 @@ namespace S10257400_PRG2Assignment
 
             Console.WriteLine();
 
-            if (iceCreamOption.ToLower() == "cup")
+            if (typeOfIceCream.ToLower() == "cup")
             {
-                IceCream iceCream = new Cup(iceCreamOption, scoopsOfIceCream, flavourList, toppingList);
+                IceCream iceCream = new Cup(typeOfIceCream, scoopsOfIceCream, flavourList, toppingList);
                 return iceCream;
             }
-            else if (iceCreamOption.ToLower() == "cone")
+            else if (typeOfIceCream.ToLower() == "cone")
             {
-                IceCream iceCream = new Cone(iceCreamOption, scoopsOfIceCream, flavourList, toppingList, dippedCone);
+                IceCream iceCream = new Cone(typeOfIceCream, scoopsOfIceCream, flavourList, toppingList, dippedCone);
                 return iceCream;
             }
             else
             {
-                IceCream iceCream = new Waffle(iceCreamOption, scoopsOfIceCream, flavourList, toppingList, waffleFlavour);
+                IceCream iceCream = new Waffle(typeOfIceCream, scoopsOfIceCream, flavourList, toppingList, waffleFlavour);
                 return iceCream;
             }
         }
         
-        static void ListObjects(Order customerOrder)
+
+        static string GetIceCreamType()
         {
-            int i = 1;
+            Console.WriteLine("Types of Ice Cream Available");
+            Console.WriteLine("[1] Cup \n" + "[2] Cone \n" + "[3] Waffle");
 
-            foreach (IceCream iceCream in customerOrder.IceCreamList)
+            string iceCreamOption;
+            while (true)
             {
-                if (iceCream is Cup)
-                {
-                    Console.WriteLine("{0,-7} {1,-11} {2,-8} {3,-14} {4,-42} {5}", "ID", "Timestamp", "Type", "Total Scoops", "Flavours(Scoops Per Flavour)", "Toppings");
-                }
-                else if (iceCream is Cone)
-                {
-                    Console.WriteLine("{0,-7} {1,-11} {2,-8} {3,-14} {4,-42} {5,-31} {6}", "ID", "Timestamp", "Type", "Total Scoops", "Flavours(Scoops Per Flavour)", "Toppings", "Chocolate Cone?");
-                }
-                else if (iceCream is Waffle)
-                {
-                    Console.WriteLine("{0,-7} {1,-11} {2,-8} {3,-14} {4,-42} {5,-31} {6}", "ID", "Timestamp", "Type", "Total Scoops", "Flavours(Scoops Per Flavour)", "Toppings", "Waffle Flavour");
-                }
+                Console.Write("Enter type of ice cream desired: ");
+                iceCreamOption = Console.ReadLine();
 
-                if (customerOrder.IceCreamList.Count > 1)
-                {   
-                    Console.Write($"{customerOrder.Id:D2}/{i,-4:D2} {customerOrder.TimeReceived.ToString("t"),-12}");
-                    i++;
+                if (iceCreamOption == "1")
+                {
+                    return "Cup";
+                }
+                else if (iceCreamOption == "2")
+                {
+                    return "Cone";
+                }
+                else if (iceCreamOption == "3")
+                {
+                    return "Waffle";
+                }
+                else if (iceCreamOption.ToLower() != "cup" && iceCreamOption.ToLower() != "cone" && iceCreamOption.ToLower() != "waffle")
+                {
+                    Console.WriteLine("Please enter an available option that is shown above.");
                 }
                 else
                 {
-                    Console.Write($"{customerOrder.Id,-7:D2} {customerOrder.TimeReceived.ToString("t"),-12}");
+                    return(char.ToUpper(iceCreamOption[0]) + iceCreamOption.Substring(1));
                 }
-
-                Console.WriteLine(iceCream);
-                Console.WriteLine();
             }
+        }
+
+        static int GetNumScoopsOfIceCream()
+        {
+            int scoopsOfIceCream;
+
+            while (true)
+            {
+                Console.Write("Enter number of scoops: ");
+                try
+                {
+                    scoopsOfIceCream = Convert.ToInt32(Console.ReadLine());
+
+                    if (scoopsOfIceCream <= 0)
+                    {
+                        Console.WriteLine("You need to order at least 1 scoop of ice cream.");
+                    }
+                    else if (scoopsOfIceCream > 3)
+                    {
+                        Console.WriteLine("You can only order at most 3 scoops of ice cream.");
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+                catch (FormatException)
+                {
+                    Console.WriteLine("Invalid number of ice cream scoops ordered. Please enter a quantity from 1 to 3.");
+                }
+            }
+
+            Console.WriteLine();
+            return scoopsOfIceCream;
+        }
+
+        static bool GetDippedCone()
+        {
+            while (true)
+            {
+                Console.Write("Do you upgrade your cone to a chocolate-dipped cone for an additional $2 [Y/N]? ");
+                string chocoCone = Console.ReadLine();
+
+                if (chocoCone.ToLower() == "y")
+                {
+                    return true;
+                }
+                else if (chocoCone.ToLower() == "n")
+                {
+                    return false;
+                }
+                else
+                {
+                    Console.WriteLine("Please reply with either \"Y\" or \"N\".");
+                }
+            }
+        }
+
+        static string GetWaffleFlavour()
+        {
+            string waffleFlavour;
+
+            Console.WriteLine("Types of Premium Waffle Flavours Available");
+            Console.WriteLine("[1] Red Velvet \n" + "[2] Charcoal \n" + "[3] Pandan");
+
+            while (true)
+            {
+                Console.Write("Would you like to upgrade your waffle to one of our premium flavours for an additional cost of $3 [Y/N]? ");
+                string premiumWaffle = Console.ReadLine();
+
+                if (premiumWaffle.ToLower() == "y")
+                {
+                    while (true)
+                    {
+                        Console.Write("Which flavour would you like? ");
+                        waffleFlavour = Console.ReadLine();
+
+                        if (waffleFlavour == "1")
+                        {
+                            waffleFlavour = "Red Velvet";
+                            break;
+                        }
+                        else if (waffleFlavour == "2")
+                        {
+                            waffleFlavour = "Charcoal";
+                            break;
+                        }
+                        else if (waffleFlavour == "3")
+                        {
+                            waffleFlavour = "Pandan";
+                            break;
+                        }
+                        else if (waffleFlavour.ToLower() != "red velvet" && waffleFlavour.ToLower() != "redvelvet" && waffleFlavour.ToLower() != "charcoal" && waffleFlavour.ToLower() != "pandan")
+                        {
+                            Console.WriteLine("Please enter an available option that is shown above");
+                        }
+                        else
+                        {
+                            waffleFlavour = char.ToUpper(waffleFlavour[0]) + waffleFlavour.Substring(1);
+                            break;
+                        }
+                    }
+
+                    break;
+                }
+                else if (premiumWaffle.ToLower() == "n")
+                {
+                    waffleFlavour = "Original";
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine("Please reply with either \"Y\" or \"N\".");
+                }
+            }
+
+            return waffleFlavour;
         }
 
         static int OrderModificationMenu()
@@ -824,60 +759,16 @@ namespace S10257400_PRG2Assignment
 
         static void ModifyType(Order customerOrder)
         {
-            List<IceCream> newIceCreamList = new List<IceCream>();
-            List<string> iceCreamTypeList = new List<string>();
-            iceCreamTypeList.Add("Cup");
-            iceCreamTypeList.Add("Cone");
-            iceCreamTypeList.Add("Waffle");
-
-            List<string> availableOption = new List<string>();
-            IceCream originalIceCream = null;
-            string typeToChange = "";    // string hold the type of Ice Cream object that is going be changed
-            int x = 1;
+            List<string> iceCreamTypeList = new List<string> { "Cup", "Cone", "Waffle" };
 
             Console.WriteLine();
             Console.WriteLine($"You have {customerOrder.IceCreamList.Count()} ice creams in your order");
 
-            if (customerOrder.IceCreamList.Count() == 1)
-            {
-                foreach (IceCream iceCream in customerOrder.IceCreamList)
-                {
-                    Console.Write($"You have ordered one {iceCream.Option} Ice Cream");
-                    typeToChange = iceCream.Option;
-                    originalIceCream = iceCream;
-                    break;
-                }
-            }
-            else
-            { 
-                foreach (IceCream iceCream in customerOrder.IceCreamList)
-                {
-                    Console.WriteLine($"You have ordered one {iceCream.Option} ice cream");
-                    
-                    while (true)
-                    {
-                        Console.Write("Do you wish to change this order [Y/N]?");
-                        string changeOrder = Console.ReadLine();
+            IceCream originalIceCream = GetIceCreamToChange(customerOrder);
+            
+            int x = 1;
 
-                        if (changeOrder.ToLower() == "y")
-                        {
-                            //typeToChange = iceCream.Option;
-                            originalIceCream = iceCream;
-                            break;
-                        }
-                        else if (changeOrder.ToLower() == "n" && x != customerOrder.IceCreamList.Count())
-                        {
-                            x ++;
-                            continue;
-                        }
-                        else
-                        {
-                            Console.WriteLine("Please reply with either \"Y\" or \"N\".");
-                        }
-                    }
-                }
-            }
-
+            List<string> availableOption = new List<string>();
             Console.WriteLine();
             x = 1;
             foreach (IceCream iceCream in customerOrder.IceCreamList)
@@ -886,138 +777,153 @@ namespace S10257400_PRG2Assignment
 
                 foreach (string iceCreamOption in iceCreamTypeList)
                 {
-                    if (iceCreamOption == typeToChange)
+                    if (iceCreamOption == originalIceCream.Option)
                     {
                         continue;
                     }
                     else
                     {
                         Console.WriteLine($"[{x}] {iceCreamOption}");
-                        availableOption.Append(iceCreamOption);
+                        availableOption.Add(iceCreamOption);
                         x++;
                     }
                 }
             }
 
+            Console.WriteLine();
+            
             while (true)
-            {
-                foreach (string iceCreamOption in availableOption)
-                {
-                    Console.WriteLine(iceCreamOption);
-                }
-                    
+            {       
                 Console.Write("What do you want to change it to? ");
                 string newIceCream = Console.ReadLine();
 
                 if (newIceCream == "1")
                 {
-                    //iceCream.Option = availableOption[0];
+                    if (availableOption[0] == "Cup")
+                    {
+                        ReplaceWithCup(customerOrder, originalIceCream);
+                    }
+                    else if (availableOption[0] == "Cone")
+                    {
+                        bool dippedCone = GetDippedCone();
+                        ReplaceWithCone(customerOrder, originalIceCream, dippedCone);
+                    }
+                    else if (availableOption[0] == "Waffle")
+                    {
+                        string waffleFlavour = GetWaffleFlavour();
+                        ReplaceWithWaffle(customerOrder, originalIceCream, waffleFlavour);
+                    }
+
                     break;
                 }
                 else if (newIceCream == "2")
                 {
-                    //iceCream.Option = availableOption[1];
+                    if (availableOption[1] == "Cup")
+                    {
+                        ReplaceWithCup(customerOrder, originalIceCream);
+                    }
+                    else if (availableOption[1] == "Cone")
+                    {
+                        bool dippedCone = GetDippedCone();
+                        ReplaceWithCone(customerOrder, originalIceCream, dippedCone);
+                    }
+                    else if (availableOption[1] == "Waffle")
+                    {
+                        string waffleFlavour = GetWaffleFlavour();
+                        ReplaceWithWaffle(customerOrder, originalIceCream, waffleFlavour);
+                    }
+
                     break;
                 }
                 else if (newIceCream == "cup" || newIceCream == "Cup")
                 {
-                    foreach (IceCream iceCream in customerOrder.IceCreamList)
-                    {
-                        if (iceCream == originalIceCream)
-                        {
-                            customerOrder.DeleteIceCream(originalIceCream);
-                            IceCream replacementIceCream = new Cup("Cup", originalIceCream.Scoops, originalIceCream.Flavours, originalIceCream.Toppings);
-                            customerOrder.AddIceCream(replacementIceCream);
-                        }
-                    }
+                    ReplaceWithCup(customerOrder, originalIceCream);
 
                     break;
                 }
                 else if (newIceCream == "cone" || newIceCream == "Cone")
                 {
-                    bool dippedCone = false;
-                    while (true)
-                    {
-                        Console.Write("Do you upgrade your cone to a chocolate-dipped cone for an additional $2 [Y/N]? ");
-                        string chocoCone = Console.ReadLine();
-
-                        if (chocoCone.ToLower() == "y")
-                        {
-                            dippedCone = true;
-                            break;
-                        }
-                        else if (chocoCone.ToLower() == "n")
-                        {
-                            break;
-                        }
-                        else
-                        {
-                            Console.WriteLine("Please reply with either \"Y\" or \"N\".");
-                        }
-                    }
-
-                    foreach (IceCream iceCream in customerOrder.IceCreamList)
-                    {
-                        if (iceCream == originalIceCream)
-                        {
-                            customerOrder.DeleteIceCream(originalIceCream);
-                            IceCream replacementIceCream = new Cone("Cone", originalIceCream.Scoops, originalIceCream.Flavours, originalIceCream.Toppings, dippedCone);
-                            customerOrder.AddIceCream(replacementIceCream);
-                        }
-                    }
-
+                    bool dippedCone = GetDippedCone();
+                    ReplaceWithCone(customerOrder, originalIceCream, dippedCone);
                     break;
                 }
                 else if (newIceCream == "waffle" || newIceCream == "Waffle")
                 {
-                    string waffleFlavour;
+                    string waffleFlavour = GetWaffleFlavour();
+                    ReplaceWithWaffle(customerOrder, originalIceCream, waffleFlavour);
+                    break;
+                }
 
-                    Console.WriteLine("Types of Premium Waffle Flavours Available");
-                    Console.WriteLine("[1] Red Velvet \n" + "[2] Charcoal \n" + "[3] Pandan");
-                    
+                else if (!availableOption.Contains(newIceCream, StringComparer.OrdinalIgnoreCase) || newIceCream != "1" || newIceCream != "2")
+                {
+                    Console.WriteLine("Please enter a choice from the list shown above.");
+                }
+            }
+        }
+
+        static IceCream GetIceCreamToChange(Order customerOrder)
+        {
+            foreach (IceCream iceCream in customerOrder.IceCreamList)
+            {
+                Console.WriteLine($"You have ordered one {iceCream.Option} Ice Cream");
+
+                while (true)
+                {
+                    Console.Write("Do you wish to change this order [Y/N]? ");
+                    string changeOrder = Console.ReadLine();
+
+                    if (changeOrder.ToLower() == "y")
+                    {
+                        return iceCream;
+                    }
+                    else if (changeOrder.ToLower() == "n" && customerOrder.IceCreamList.Count() == 1)
+                    {
+                        Console.WriteLine("You only have one ice cream in your order. Hence this ice cream will be modified.");
+                        return iceCream;
+                    }
+                    else if (changeOrder.ToLower() == "n" && customerOrder.IceCreamList.Last() == iceCream)
+                    {
+                        Console.WriteLine("This is the last ice cream in your order. Hence this ice cream will be modified.");
+                        return iceCream;
+                    }
+                    else if (changeOrder.ToLower() == "n")
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Please reply with either \"Y\" or \"N\".");
+                    }
+                }
+            }
+
+            return null;
+            /*
+            if (customerOrder.IceCreamList.Count() == 1)
+            {
+                foreach (IceCream iceCream in customerOrder.IceCreamList)
+                {
+                    Console.Write($"You have ordered one {iceCream.Option} Ice Cream");
+                    return iceCream;
+                }
+            }
+            else
+            {
+                foreach (IceCream iceCream in customerOrder.IceCreamList)
+                {
+                    Console.WriteLine($"You have ordered one {iceCream.Option} ice cream");
+
                     while (true)
                     {
-                        Console.Write("Would you like to upgrade your waffle to one of our premium flavours for an additional cost of $3 [Y/N]? ");
-                        string premiumWaffle = Console.ReadLine();
+                        Console.Write("Do you wish to change this order [Y/N]?");
+                        string changeOrder = Console.ReadLine();
 
-                        if (premiumWaffle.ToLower() == "y")
+                        if (changeOrder.ToLower() == "y")
                         {
-                            while (true)
-                            {
-                                Console.Write("Which flavour would you like? ");
-                                waffleFlavour = Console.ReadLine();
-
-                                if (waffleFlavour == "1")
-                                {
-                                    waffleFlavour = "Red Velvet";
-                                    break;
-                                }
-                                else if (waffleFlavour == "2")
-                                {
-                                    waffleFlavour = "Charcoal";
-                                    break;
-                                }
-                                else if (waffleFlavour == "3")
-                                {
-                                    waffleFlavour = "Pandan";
-                                    break;
-                                }
-                                else if (waffleFlavour.ToLower() != "red velvet" && waffleFlavour.ToLower() != "redvelvet" && waffleFlavour.ToLower() != "charcoal" && waffleFlavour.ToLower() != "pandan")
-                                {
-                                    Console.WriteLine("Please enter an available option that is shown above");
-                                }
-                                else
-                                {
-                                    waffleFlavour = char.ToUpper(waffleFlavour[0]) + waffleFlavour.Substring(1);
-                                    break;
-                                }
-
-                                break;
-                            }
+                            return iceCream;
                         }
-                        else if (premiumWaffle.ToLower() == "n")
+                        else if (changeOrder.ToLower() == "n")
                         {
-                            waffleFlavour = "Original";
                             break;
                         }
                         else
@@ -1025,25 +931,32 @@ namespace S10257400_PRG2Assignment
                             Console.WriteLine("Please reply with either \"Y\" or \"N\".");
                         }
                     }
-
-                    foreach (IceCream iceCream in customerOrder.IceCreamList)
-                    {
-                        if (iceCream == originalIceCream)
-                        {
-                            customerOrder.DeleteIceCream(originalIceCream);
-                            IceCream replacementIceCream = new Waffle("Waffle", originalIceCream.Scoops, originalIceCream.Flavours, originalIceCream.Toppings, waffleFlavour);
-                            customerOrder.AddIceCream(replacementIceCream);
-                        }
-                    }
-
-                    break;
-                }
-
-                else if (!availableOption.Contains(newIceCream, StringComparer.OrdinalIgnoreCase))
-                {
-                    Console.WriteLine("Please enter a choice from the list shown above.");
                 }
             }
+
+            return null;
+            */
+        }
+
+        static void ReplaceWithCup(Order customerOrder, IceCream originalIceCream)
+        {
+            IceCream replacementIceCream = new Cup("Cup", originalIceCream.Scoops, originalIceCream.Flavours, originalIceCream.Toppings);
+            customerOrder.AddIceCream(replacementIceCream);
+            customerOrder.DeleteIceCream(originalIceCream);
+        }
+
+        static void ReplaceWithCone(Order customerOrder, IceCream originalIceCream, bool dippedCone)
+        {
+            IceCream replacementIceCream = new Cone("Cone", originalIceCream.Scoops, originalIceCream.Flavours, originalIceCream.Toppings, dippedCone);
+            customerOrder.AddIceCream(replacementIceCream);
+            customerOrder.DeleteIceCream(originalIceCream);
+        }
+
+        static void ReplaceWithWaffle(Order customerOrder, IceCream originalIceCream, string waffleFlavour)
+        {
+            IceCream replacementIceCream = new Waffle("Waffle", originalIceCream.Scoops, originalIceCream.Flavours, originalIceCream.Toppings, waffleFlavour);
+            customerOrder.AddIceCream(replacementIceCream);
+            customerOrder.DeleteIceCream(originalIceCream);
         }
     }
 }

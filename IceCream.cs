@@ -53,44 +53,26 @@ namespace S10257400_PRG2Assignment
         {
             StringBuilder iceCreamInfo = new StringBuilder();
 
-            iceCreamInfo.Append($"{Option,-19} {Scoops,-3}");
+            iceCreamInfo.Append($"{Option} Ice Cream \n");
+            iceCreamInfo.Append($"{Scoops} scoops of Ice Cream \n");
             
-            string x = "";
             for (int i = 0; i < Flavours.Count(); i++)
             {
-                if (i < Flavours.Count() - 1)
+                iceCreamInfo.Append($"- {Flavours[i].Quantity} {Flavours[i].Type} \n");
+            }
+
+            for (int i = 0; i < Toppings.Count(); i++)
+            {
+                if (i == 0)
                 {
-                    x += $" {Flavours[i].Type}({Flavours[i].Quantity}),";
+                    iceCreamInfo.Append("Topping(s) \n");
+                    iceCreamInfo.Append($"- {Toppings[i].Type} \n");
                 }
                 else
                 {
-                    x += $" {Flavours[i].Type}({Flavours[i].Quantity})";
+                    iceCreamInfo.Append($"- {Toppings[i].Type} \n");
                 }
             }
-         
-            iceCreamInfo.Append($"{x,-43}");
-
-            string y = "";
-            if (Toppings.Count == 0)
-            {
-                y += "None";
-            }
-            else
-            {
-                for (int i = 0; i < Toppings.Count(); i++)
-                {
-                    if (i < Toppings.Count() - 1)
-                    {
-                        y += $" {Toppings[i].Type},";
-                    }
-                    else
-                    {
-                        y += $" {Toppings[i].Type}";
-                    }
-                }
-            }
-
-            iceCreamInfo.Append($"{y,-33}");
 
             return iceCreamInfo.ToString();
         }

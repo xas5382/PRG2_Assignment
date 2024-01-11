@@ -62,11 +62,11 @@ namespace S10257400_PRG2Assignment
         {
             if (!Dipped)
             {
-                return base.ToString() + "No";
+                return base.ToString() + "Chocolate Cone? \n" + "- No \n";
             }
             else
             {
-                return base.ToString() + "Yes";
+                return base.ToString() + "Chocolate Cone? \n" + "- Yes \n";
             }
         }
     }

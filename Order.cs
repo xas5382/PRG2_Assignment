@@ -13,33 +13,33 @@ namespace S10257400_PRG2Assignment
         private DateTime? timeFulfilled;
         private List<IceCream> iceCreamList;
 
-        public int Id 
+        public int Id
         {
-            get { return id; } 
-            set { id = value; } 
+            get { return id; }
+            set { id = value; }
         }
 
         public DateTime TimeReceived
-        { 
-            get { return timeReceived; } 
-            set { timeReceived = value; } 
+        {
+            get { return timeReceived; }
+            set { timeReceived = value; }
         }
 
         public DateTime? TimeFulfilled
-        { 
-            get { return timeFulfilled; } 
-            set { timeFulfilled = value; } 
+        {
+            get { return timeFulfilled; }
+            set { timeFulfilled = value; }
         }
 
-        public List<IceCream>IceCreamList
-        { 
-            get { return iceCreamList; } 
-            set { iceCreamList = value; } 
+        public List<IceCream> IceCreamList
+        {
+            get { return iceCreamList; }
+            set { iceCreamList = value; }
         }
 
         public Order() { }
 
-        public Order(int id, DateTime timeReceived) 
+        public Order(int id, DateTime timeReceived)
         {
             Id = id;
             TimeReceived = timeReceived;
@@ -68,11 +68,12 @@ namespace S10257400_PRG2Assignment
         {
             StringBuilder orderInfo = new StringBuilder();
 
-            orderInfo.Append($"{Id,-7:D2} {TimeReceived.ToString("t"),-11}");
+            orderInfo.Append($"Order ID: {Id:D2} \n");
+            orderInfo.Append($"Timestamp: {TimeReceived.ToString("G")} \n");
 
             foreach (IceCream iceCream in IceCreamList)
             {
-                orderInfo.Append($" {iceCream}");
+                orderInfo.Append($"{iceCream}");
             }
 
             return orderInfo.ToString();
