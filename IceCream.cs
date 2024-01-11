@@ -51,26 +51,26 @@ namespace S10257400_PRG2Assignment
 
         public override string ToString()
         {
-            StringBuilder iceCreamInfo = new StringBuilder();
+            string iceCreamInfo = "";
 
-            iceCreamInfo.Append($"{Option} Ice Cream \n");
-            iceCreamInfo.Append($"{Scoops} scoops of Ice Cream \n");
+            iceCreamInfo += ($"{Option} Ice Cream \n");
+            iceCreamInfo += ($"{Scoops} scoops of Ice Cream \n");
             
             for (int i = 0; i < Flavours.Count(); i++)
             {
-                iceCreamInfo.Append($"- {Flavours[i].Quantity} {Flavours[i].Type} \n");
+                iceCreamInfo += ($"- {Flavours[i].Quantity} {Flavours[i].Type} \n");
             }
 
             for (int i = 0; i < Toppings.Count(); i++)
             {
                 if (i == 0)
                 {
-                    iceCreamInfo.Append("Topping(s) \n");
-                    iceCreamInfo.Append($"- {Toppings[i].Type} \n");
+                    iceCreamInfo += ("Topping(s) \n");
+                    iceCreamInfo += ($"- {Toppings[i].Type} \n");
                 }
                 else
                 {
-                    iceCreamInfo.Append($"- {Toppings[i].Type} \n");
+                    iceCreamInfo += ($"- {Toppings[i].Type} \n");
                 }
             }
 

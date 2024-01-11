@@ -45,11 +45,23 @@ namespace S10257400_PRG2Assignment
             Points += points;
         }
 
-        public void RedeemPoints(int dedeuctPoints)
+        public void RedeemPoints(int redeemedPoints)
         {
             if (Tier != "Ordinary")
             {
-                Points -= dedeuctPoints;
+                Points -= redeemedPoints;
+            }
+        }
+
+        public void Punch()
+        {
+            if (PunchCard == 10)
+            {
+                punchCard = 0;
+            }
+            else
+            {
+                punchCard++;
             }
         }
     }

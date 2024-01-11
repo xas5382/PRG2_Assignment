@@ -64,6 +64,18 @@ namespace S10257400_PRG2Assignment
             IceCreamList.Remove(iceCream);
         }
 
+        public double CalculateTotal()
+        {
+            double total = 0;
+
+            foreach (IceCream iceCream in IceCreamList)
+            {
+                total += iceCream.CalculatePrice();
+            }
+
+            return total;
+        }
+
         public override string ToString()
         {
             StringBuilder orderInfo = new StringBuilder();
