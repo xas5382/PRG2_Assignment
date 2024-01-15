@@ -117,7 +117,8 @@ namespace S10257400_PRG2Assignment
                             }
                             else if (modificationChoice == 2)
                             {
-                                ModifyNumOfScoops(customerOrder);
+                                ModifyNumOfScoops(customerOrder, iceCreamFlavourList);
+                                Console.WriteLine(customerOrder);
                             }
                             else if (modificationChoice == 3)
                             {
@@ -165,7 +166,8 @@ namespace S10257400_PRG2Assignment
                             }
                             else
                             {
-
+                                IceCream originalIceCream = GetIceCreamToChange(customerOrder);
+                                customerOrder.DeleteIceCream(originalIceCream);
                             }
                         }
                     }
@@ -193,7 +195,7 @@ namespace S10257400_PRG2Assignment
 
             bool correctFile = false;
 
-            if (firstLine.Contains("Name") && firstLine.Contains("MemberId") && firstLine.Contains("DOB"))
+            if (firstLine.Contains("Name") && firstLine.Contains("MemberId") && firstLine.Contains("DOB") && firstLine.Length == 3)
             {
                 correctFile = true;
             }
@@ -332,7 +334,7 @@ namespace S10257400_PRG2Assignment
         static IceCream CreateCustomerOrder(Dictionary<int, Customer> customerDict, Customer customer, List<string> iceCreamFlavourList)
         {
             string typeOfIceCream = GetIceCreamType();
-            int scoopsOfIceCream = GetNumScoopsOfIceCream();
+            int scoopsOfIceCream = GetNumScoopsOfIceCream(iceCreamFlavourList);
 
             bool dippedCone = false;
             string waffleFlavour = null;
@@ -417,13 +419,13 @@ namespace S10257400_PRG2Assignment
             }
         }
 
-        static int GetNumScoopsOfIceCream()
+        static int GetNumScoopsOfIceCream(List)
         {
             int scoopsOfIceCream;
 
             while (true)
             {
-                Console.Write("Enter number of scoops: ");
+                Console.Write("How many scoops of Ice Cream do you want? ");
                 try
                 {
                     scoopsOfIceCream = Convert.ToInt32(Console.ReadLine());
@@ -888,7 +890,7 @@ namespace S10257400_PRG2Assignment
 
                 while (true)
                 {
-                    Console.Write($"Do you wish to change yourZZZ order [Y/N]? ");
+                    Console.Write($"Do you wish to change your order [Y/N]? ");
                     string changeOrder = Console.ReadLine();
 
                     if (changeOrder.ToLower() == "y")
@@ -935,9 +937,34 @@ namespace S10257400_PRG2Assignment
             customerOrder.DeleteIceCream(originalIceCream);
         }
 
-        static void ModifyNumOfScoops(Order customerOrder)
+        static void ModifyNumOfScoops(Order customerOrder, List<string> iceCreamFlavourList)
         {
             IceCream originalIceCream = GetIceCreamToChange(customerOrder);
+
+            int x = 1;
+            List<int> availableOption = new List<int> {1,2,3};
+            Console.WriteLine();
+
+            Console.WriteLine($"Your order has {originalIceCream.Scoops} scoops of ice cream");
+            foreach (Flavour flavour in originalIceCream.Flavours)
+            {
+                Console.WriteLine($"- {flavour.Quantity} {flavour.Type}");
+
+                if (originalIceCream.Flavours.Count == 1)
+                {
+                    availableOption.Remove(flavour.Quantity);
+                }
+            }
+            /*
+            foreach (int numOfScoopsAvailable in availableOption)
+            {
+                Console.WriteLine($"{x} {numOfScoopsAvailable}");
+            }
+
+            int newNumOfScoops = GetNumScoopsOfIceCream(availableOption);
+            List<Flavour> newFlavourList = GetIceCreamFlavours(iceCreamFlavourList, newNumOfScoops);
+            originalIceCream.Flavours = newFlavourList;
+            */
         }
 
         static void ModifyFlavours(Order customerOrder, List<string>iceCreamFlavourList)
