@@ -270,7 +270,7 @@ namespace S10257400_PRG2Assignment
                 string waffleFlavour = info[7];
 
                 List<Flavour> flavourList = new List<Flavour>();
-                for (int x = 8; x < 11; i++)
+                for (int x = 8; x < 11; x++)
                 {
                     if (info[x] != "")
                     {
@@ -296,7 +296,7 @@ namespace S10257400_PRG2Assignment
                 }
 
                 List<Topping> toppingList = new List<Topping>();
-                for (int x = 11; x < csvLines.Length; i++)
+                for (int x = 11; x < 15; x++)
                 {
                     if (info[x] != "")
                     {
@@ -668,7 +668,7 @@ namespace S10257400_PRG2Assignment
 
                 try
                 {
-                    flavourIndex = int.Parse(chosenFlavour);
+                    flavourIndex = Convert.ToInt32(chosenFlavour);
 
                     if (flavourIndex >= 1 && flavourIndex <= iceCreamFlavourList.Count())
                     {
@@ -1057,7 +1057,7 @@ namespace S10257400_PRG2Assignment
         {
             IceCream originalIceCream = GetIceCreamToChange(customerOrder);
 
-            int x = 1;
+            //int x = 1;
             List<int> availableOption = new List<int> { 1, 2, 3 };
             Console.WriteLine();
 
@@ -1121,25 +1121,25 @@ namespace S10257400_PRG2Assignment
         static void DisplayAmountSpent(List<Order> completedOrderList)
         {
             Dictionary<string, double> monthlyProfitsDict = new Dictionary<string, double>();
-            monthlyProfitsDict.Add("January", 0);
-            monthlyProfitsDict.Add("Feburary", 0);
-            monthlyProfitsDict.Add("March", 0);
-            monthlyProfitsDict.Add("April", 0);
+            monthlyProfitsDict.Add("Jan", 0);
+            monthlyProfitsDict.Add("Feb", 0);
+            monthlyProfitsDict.Add("Mar", 0);
+            monthlyProfitsDict.Add("Apr", 0);
             monthlyProfitsDict.Add("May", 0);
-            monthlyProfitsDict.Add("June", 0);
-            monthlyProfitsDict.Add("July", 0);
-            monthlyProfitsDict.Add("August", 0);
-            monthlyProfitsDict.Add("September", 0);
-            monthlyProfitsDict.Add("October", 0);
-            monthlyProfitsDict.Add("November", 0);
-            monthlyProfitsDict.Add("December", 0);
-
-            Console.WriteLine("Enter the year: ");
+            monthlyProfitsDict.Add("Jun", 0);
+            monthlyProfitsDict.Add("Jul", 0);
+            monthlyProfitsDict.Add("Aug", 0);
+            monthlyProfitsDict.Add("Sep", 0);
+            monthlyProfitsDict.Add("Oct", 0);
+            monthlyProfitsDict.Add("Nov", 0);
+            monthlyProfitsDict.Add("Dec", 0);
 
             int year;
 
             while (true)
             {
+                Console.Write("Enter the year: ");
+
                 try
                 {
                     year = Convert.ToInt32(Console.ReadLine());
@@ -1167,18 +1167,19 @@ namespace S10257400_PRG2Assignment
                 }
             }
 
-            //double monthlyProfits = 0;
-            foreach (Order order in completedOrderList) 
+            double yearlyProfits = 0;
+            foreach (Order order in completedOrderList)
             {
-                DateTime timeFulfilledOrder = Convert.ToDateTime(order.TimeFulfilled);
+                DateTime timeFulfilled = Convert.ToDateTime(order.TimeFulfilled);
 
-                if (timeFulfilledOrder.Year == year)
+                if (timeFulfilled.Year == year)
                 {
-                    string month = timeFulfilledOrder.Month.ToString("MMMM");
-                    
+                    string month = timeFulfilled.ToString("MMM");
+
                     foreach (IceCream iceCream in order.IceCreamList)
                     {
                         double iceCreamCost = iceCream.CalculatePrice();
+                        yearlyProfits += iceCreamCost;
                         monthlyProfitsDict[month] += iceCreamCost;
                     }
                 }
@@ -1186,8 +1187,12 @@ namespace S10257400_PRG2Assignment
 
             foreach (KeyValuePair<string, double> kvp in monthlyProfitsDict)
             {
-                Console.WriteLine($"{kvp.Key} {year}: ${kvp.Value}");
+                Console.WriteLine($"{kvp.Key} {year}:   ${kvp.Value}");
+
             }
+
+            Console.WriteLine();
+            Console.WriteLine($"Total:      ${yearlyProfits}");
         }
     }
 }
