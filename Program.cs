@@ -11,11 +11,13 @@ namespace S10257400_PRG2Assignment
         static void Main(string[] args)
         {
             Dictionary<int, Customer> customerDict = new Dictionary<int, Customer>();
+            List<Order> completedOrderList = CreateCompletedOrderList();
 
             Queue<Order> regularQueue = new Queue<Order>();
             Queue<Order> goldQueue = new Queue<Order>();
 
-            List<string> iceCreamFlavourList = new List<string> { "Vanilla", "Chocolate", "Strawberry", "Durian", "Ube", "Sea Salt" };
+            List<string> iceCreamFlavourList = CreateIceCreaFlavourList();
+            List<string> toppingList = CreateToppingList();
 
             bool correctFile = CreateCustomers(customerDict);
 
@@ -177,6 +179,10 @@ namespace S10257400_PRG2Assignment
                         Console.WriteLine($"Enter the member ID of another customer or add an order for {customer.Name}.");
                     }
                 }
+                else if (choice == 7)
+                {
+                    DisplayAmountSpent(completedOrderList);
+                }
                 else
                 {
                     Console.WriteLine();
@@ -195,7 +201,7 @@ namespace S10257400_PRG2Assignment
 
             bool correctFile = false;
 
-            if (firstLine.Contains("Name") && firstLine.Contains("MemberId") && firstLine.Contains("DOB") && firstLine.Length == 3)
+            if (firstLine.Contains("Name") && firstLine.Contains("MemberId") && firstLine.Contains("DOB"))
             {
                 correctFile = true;
             }
@@ -217,6 +223,114 @@ namespace S10257400_PRG2Assignment
             return correctFile;
         }
 
+        static List<string> CreateIceCreaFlavourList()
+        {
+            List<string> iceCreamFlavourList = new List<string>();
+
+            string[] csvLines = File.ReadAllLines("flavours.csv");
+
+            for (int i = 1; i < csvLines.Length; i++)
+            {
+                iceCreamFlavourList.Add(csvLines[i]);
+            }
+
+            return iceCreamFlavourList;
+        }
+
+        static List<string> CreateToppingList()
+        {
+            List<string> toppingList = new List<string>();
+
+            string[] csvLines = File.ReadAllLines("toppings.csv");
+
+            for (int i = 1; i < csvLines.Length; i++)
+            {
+                toppingList.Add(csvLines[i]);
+            }
+
+            return toppingList;
+        }
+
+        static List<Order> CreateCompletedOrderList()
+        {
+            List<Order> completedOrderList = new List<Order>();
+
+            string[] csvLines = File.ReadAllLines("orders.csv");
+
+            for (int i = 1; i < csvLines.Length; i++)
+            {
+                string[] info = csvLines[i].Split(',');
+
+                int orderID = Convert.ToInt32(info[0]);
+                int memberID = Convert.ToInt32(info[1]);
+                DateTime timeReceived = Convert.ToDateTime(info[2]);
+                DateTime timeFulfilled = Convert.ToDateTime(info[3]);
+                string option = info[4];
+                int numOfScoops = Convert.ToInt32(info[5]);
+                bool dippedCone = Convert.ToBoolean(info[6]);
+                string waffleFlavour = info[7];
+
+                List<Flavour> flavourList = new List<Flavour>();
+                for (int x = 8; x < 11; i++)
+                {
+                    if (info[x] != "")
+                    {
+                        foreach (Flavour flavour in flavourList)
+                        {
+                            if (flavour.Type == info[x])
+                            {
+                                flavour.Quantity += 1;
+                            }
+                        }
+
+                        if (info[x] == "Durian" || info[x] == "Ube" || info[x] == "Sea Salt")
+                        {
+                            Flavour flavour = new Flavour(info[x], true, 1);
+                            flavourList.Add(flavour);
+                        }
+                        else
+                        {
+                            Flavour flavour = new Flavour(info[x], false, 1);
+                            flavourList.Add(flavour);
+                        }
+                    }
+                }
+
+                List<Topping> toppingList = new List<Topping>();
+                for (int x = 11; x < csvLines.Length; i++)
+                {
+                    if (info[x] != "")
+                    {
+                        Topping topping = new Topping(info[x]);
+                        toppingList.Add(topping);
+                    }
+                }
+
+                IceCream iceCream = null;
+                if (dippedCone == true || dippedCone == false)
+                {
+                    iceCream = new Cone(option, numOfScoops, flavourList, toppingList, dippedCone);
+                }
+
+                if (waffleFlavour != "")
+                {
+                    iceCream = new Waffle(option, numOfScoops, flavourList, toppingList, waffleFlavour);
+                }
+
+                if (dippedCone != true && dippedCone != false && waffleFlavour == "")
+                {
+                    iceCream = new Cup(option, numOfScoops, flavourList, toppingList);
+                }
+
+                Order pastOrder = new Order(orderID, timeReceived);
+                pastOrder.TimeFulfilled = timeFulfilled;
+                pastOrder.AddIceCream(iceCream);
+                completedOrderList.Add(pastOrder);
+            }
+
+            return completedOrderList;
+        }
+
         static int DisplayMenu()
         {
             Console.WriteLine("---------------- M E N U -----------------");
@@ -226,12 +340,13 @@ namespace S10257400_PRG2Assignment
             Console.WriteLine("[4] Create a customer’s order");
             Console.WriteLine("[5] Display order details of a customer");
             Console.WriteLine("[6] Modify order details");
+            Console.WriteLine("[7] Display monthly charged amounts breakdown & total charged amounts for the year");
             Console.WriteLine("[0] Exit");
             Console.WriteLine("------------------------------------------");
 
             int choice;
 
-            while (true)        // Loop to ensure user input is an integer between 0 and 5
+            while (true)        // Loop to ensure user input is an integer between 0 and 7
             {
                 Console.Write("Enter your option: ");
 
@@ -245,7 +360,7 @@ namespace S10257400_PRG2Assignment
                     continue;
                 }
 
-                if (choice >= 0 && choice <= 6)
+                if (choice >= 0 && choice <= 7)
                 {
                     return choice;
                 }
@@ -334,7 +449,7 @@ namespace S10257400_PRG2Assignment
         static IceCream CreateCustomerOrder(Dictionary<int, Customer> customerDict, Customer customer, List<string> iceCreamFlavourList)
         {
             string typeOfIceCream = GetIceCreamType();
-            int scoopsOfIceCream = GetNumScoopsOfIceCream(iceCreamFlavourList);
+            int scoopsOfIceCream = GetNumScoopsOfIceCream();
 
             bool dippedCone = false;
             string waffleFlavour = null;
@@ -348,11 +463,13 @@ namespace S10257400_PRG2Assignment
                 waffleFlavour = GetWaffleFlavour();
             }
 
-            Console.WriteLine();
-            Console.WriteLine("Flavours of Ice Cream that are Available");
-            Console.WriteLine("[1] Vanilla \n" + "[2] Chocolate \n" + "[3] Strawberry \n" + "[4] Durain \n" + "[5] Ube \n" +
-                "[6] Sea Salt");
-            Console.WriteLine("Note: The Durian, Ube and Sea Salt Ice Cream flavours costs an additional $2.");
+            Console.WriteLine("Flavours of Ice Cream that are Available and their cost");
+            Console.WriteLine("{0,-13} {1}", "Flavour", "Additional Cost");
+            for (int i = 0; i < iceCreamFlavourList.Count(); i++)
+            {
+                string[] info = iceCreamFlavourList[i].Split(",");
+                Console.WriteLine($"{info[0],-13} {info[1]}");
+            }
             Console.WriteLine();
 
             List<Flavour> flavourList = GetIceCreamFlavours(iceCreamFlavourList, scoopsOfIceCream);
@@ -419,7 +536,7 @@ namespace S10257400_PRG2Assignment
             }
         }
 
-        static int GetNumScoopsOfIceCream(List)
+        static int GetNumScoopsOfIceCream()
         {
             int scoopsOfIceCream;
 
@@ -942,7 +1059,7 @@ namespace S10257400_PRG2Assignment
             IceCream originalIceCream = GetIceCreamToChange(customerOrder);
 
             int x = 1;
-            List<int> availableOption = new List<int> {1,2,3};
+            List<int> availableOption = new List<int> { 1, 2, 3 };
             Console.WriteLine();
 
             Console.WriteLine($"Your order has {originalIceCream.Scoops} scoops of ice cream");
@@ -967,8 +1084,8 @@ namespace S10257400_PRG2Assignment
             */
         }
 
-        static void ModifyFlavours(Order customerOrder, List<string>iceCreamFlavourList)
-        {  
+        static void ModifyFlavours(Order customerOrder, List<string> iceCreamFlavourList)
+        {
             IceCream originalIceCream = GetIceCreamToChange(customerOrder);
 
             int x = 1;
@@ -995,16 +1112,183 @@ namespace S10257400_PRG2Assignment
 
             Console.WriteLine();
             Console.WriteLine($"You have ordered {originalIceCream.Scoops} scoops of Ice Cream");
-            
+
             List<Flavour> newFlavourList = GetIceCreamFlavours(iceCreamFlavourList, originalIceCream.Scoops);
             originalIceCream.Flavours = newFlavourList;
 
             Console.WriteLine();
         }
+
+        static void DisplayAmountSpent(List<Order> completedOrderList)
+        {
+            Console.WriteLine("Enter the year: ");
+
+            int year;
+
+            while (true)
+            {
+                try
+                {
+                    year = Convert.ToInt32(Console.ReadLine);
+                    DateTime current = DateTime.Now;
+
+                    if (year < 0)
+                    {
+                        Console.WriteLine("Please enter a valid year");
+                        continue;
+                    }
+                    else if (year > current.Year)
+                    {
+                        Console.WriteLine("Please enter the current year or years that came before the current year");
+                        continue;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+                catch (FormatException ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    Console.WriteLine("Please enter a valid year");
+                }
+            }
+
+            foreach (KeyValuePair<DateTime, List<Order>> kvp in completedOrderDict)
+            {
+                foreach (Order order in kvp.Value)
+                {
+                    DateTime timeFulfilled = Convert.ToDateTime(order.TimeFulfilled);
+                    DateTime monthFulfilled = Convert.ToDateTime(timeFulfilled.Month);
+                    
+                    if (profitsDict.ContainsKey(monthFulfilled.ToString("MMMM"))
+                    {
+                        foreach (IceCream iceCream in order.IceCreamList)
+                        {
+                            profitsDict[timeFulfilled.Month] += iceCream.CalculatePrice();
+                        }
+                    }
+                    else
+                    {
+                        foreach (IceCream iceCream in order.IceCreamList)
+                        {
+                            profitsDict[timeFulfilled.Month] = iceCream.CalculatePrice();
+                        }
+                    }
+                }
+            }
+
+            foreach (KeyValuePair<DateTime, double> kvp in profitsDict)
+            {
+                
+            }
+        }
     }
 }
 
 /*             
+ *              static Dictionary<int, List<Order>> CreateCompletedOrderDict()
+        {
+            Dictionary<int, List<Order>> completedOrderDict = new Dictionary<int, List<Order>>();
+
+            string[] csvLines = File.ReadAllLines("orders.csv");
+
+            for (int i = 1; i < csvLines.Length; i++)
+            {
+                string[] info = csvLines[i].Split(',');
+
+                List<Order> completedOrdersPerCustomer = new List<Order>();
+
+                int orderID = Convert.ToInt32(info[0]);
+                int memberID = Convert.ToInt32(info[1]);
+                DateTime timeReceived = Convert.ToDateTime(info[2]);
+                DateTime timeFulfilled = Convert.ToDateTime(info[3]);
+                string option = info[4];
+                int numOfScoops = Convert.ToInt32(info[5]);
+                bool dippedCone = Convert.ToBoolean(info[6]);
+                string waffleFlavour = info[7];
+
+                List<Flavour> flavourList = new List<Flavour>();
+                for (int x = 8; x < 11; i++)
+                {
+                    if (info[x] != "")
+                    {
+                        if (info[x] == info[x - 1])
+                        {
+                            foreach (Flavour flavour in flavourList)
+                            {
+                                if (flavour.Type == info[x])
+                                {
+                                    flavour.Quantity += 1;
+                                }
+                            }
+                        }
+
+                        if (info[x] == "Durian" || info[x] == "Ube" || info[x] == "Sea Salt")
+                        {
+                            Flavour flavour = new Flavour(info[x], true, 1);
+                            flavourList.Add(flavour);
+                        }
+                        else
+                        {
+                            Flavour flavour = new Flavour(info[x], false, 1);
+                            flavourList.Add(flavour);
+                        }
+                    }
+                }
+
+                List<Topping> toppingList = new List<Topping>();
+                for (int x = 11; x < csvLines.Length; i++)
+                {
+                    if (info[x] != "")
+                    {
+                        Topping topping = new Topping(info[x]);
+                        toppingList.Add(topping);
+                    }
+                }
+
+                IceCream iceCream = null;
+                if (dippedCone == true || dippedCone == false)
+                {
+                    iceCream = new Cone(option, numOfScoops, flavourList, toppingList, dippedCone);
+                }
+
+                if (waffleFlavour != "")
+                {
+                    iceCream = new Waffle(option, numOfScoops, flavourList, toppingList, waffleFlavour);
+                }
+
+                if (dippedCone != true && dippedCone != false && waffleFlavour == "")
+                {
+                    iceCream = new Cup(option, numOfScoops, flavourList, toppingList);
+                }
+
+                Order pastOrder = new Order(orderID, timeReceived);
+                pastOrder.TimeFulfilled = timeFulfilled;
+                pastOrder.AddIceCream(iceCream);
+
+                bool addedPastOrder = false;
+                foreach (KeyValuePair<int, List<Order>> kvp in completedOrderDict)
+                {
+                    if (kvp.Key == memberID)
+                    {
+                        kvp.Value.Add(pastOrder);
+                        addedPastOrder = true;
+                        break;
+                    }
+                }
+
+                if (!addedPastOrder)
+                {
+                    completedOrdersPerCustomer.Add(pastOrder);
+                    completedOrderDict.Add(memberID, completedOrdersPerCustomer);
+                }
+            }
+
+            return completedOrderDict;
+        }
+
+
  *              Console.Write("Which part of your ice cream order do you want to modify?");
  *              bool validFlavour = false;
 
