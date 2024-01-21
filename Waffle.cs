@@ -27,6 +27,19 @@ namespace S10257400_PRG2Assignment
         {
             double price = 0;
 
+            if (Scoops == 1)
+            {
+                price += 7;
+            }
+            else if (Scoops == 2)
+            {
+                price += 8.5;
+            }
+            else if (Scoops == 3)
+            {
+                price += 9.5;
+            }
+
             foreach (Flavour flavour in Flavours)
             {
                 if (flavour.Premium)
@@ -38,19 +51,6 @@ namespace S10257400_PRG2Assignment
             if (WaffleFlavour == "Red velvet" || WaffleFlavour == "Charcoal" || WaffleFlavour == "Pandan")
             {
                 price += 3;
-            }
-
-            if (Scoops == 1)
-            {
-                price = 7;
-            }
-            else if (Scoops == 2)
-            {
-                price = 8.5;
-            }
-            else if (Scoops == 3)
-            {
-                price = 9.5;
             }
 
             price += Toppings.Count() * 1;

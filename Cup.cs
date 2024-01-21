@@ -49,7 +49,7 @@ namespace S10257400_PRG2Assignment
 
         public override string ToString() 
         {
-            return base.ToString() + "\n";
+            return base.ToString();
         }
     }
 }

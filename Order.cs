@@ -48,9 +48,10 @@ namespace S10257400_PRG2Assignment
 
         public void ModifyIceCream(int index)
         {
-            foreach (IceCream iceCream in IceCreamList)
+            IceCream iceCreamToChange = iceCreamList[index - 1];
+            for (int i = 0; i < iceCreamList.Count; i++) 
             {
-
+                iceCreamToChange = iceCreamList[index - 1]; 
             }
         }
 
@@ -82,6 +83,7 @@ namespace S10257400_PRG2Assignment
 
             orderInfo.Append($"Order ID: {Id:D2} \n");
             orderInfo.Append($"Timestamp: {TimeReceived.ToString("G")} \n");
+
 
             foreach (IceCream iceCream in IceCreamList)
             {

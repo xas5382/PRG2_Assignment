@@ -58,6 +58,15 @@ namespace S10257400_PRG2Assignment
             Name = name;
             MemberId = memberId;
             Dob = dob;
+            Rewards = new PointCard();
+        }
+
+        public Order MakeOrder()
+        {
+            CurrentOrder.TimeFulfilled = DateTime.Now;
+            OrderHistory.Add(CurrentOrder);
+            CurrentOrder = null;
+            return OrderHistory.Last();
         }
 
         public bool isBirthday()
@@ -76,7 +85,7 @@ namespace S10257400_PRG2Assignment
 
         public override string ToString()
         {
-            return ($"{Name,-11} {MemberId,-12} {Dob.ToString("dd/MM/yyyy")}");
+            return ($"{Name,-11} {MemberId,-12} {Dob.ToString("dd/MM/yyyy"),-13} {Rewards.Tier,-8} {Rewards.Points,9} {Rewards.PunchCard,13}");
         }
     }
 }
