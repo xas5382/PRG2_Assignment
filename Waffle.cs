@@ -1,4 +1,9 @@
-﻿using System;
+﻿//==========================================================
+// Student Number : S10257400
+// Student Name : See Wai Kee, Audrey
+//==========================================================
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -44,11 +49,11 @@ namespace S10257400_PRG2Assignment
             {
                 if (flavour.Premium)
                 {
-                    price += 2;
+                    price += flavour.Quantity * 2; ;
                 }
             }
 
-            if (WaffleFlavour == "Red velvet" || WaffleFlavour == "Charcoal" || WaffleFlavour == "Pandan")
+            if (WaffleFlavour.ToLower() != "original")
             {
                 price += 3;
             }
@@ -56,6 +61,58 @@ namespace S10257400_PRG2Assignment
             price += Toppings.Count() * 1;
 
             return price;
+        }
+
+        public void ModifyWaffleFlavour()   // method to modify waffle flavour, not found in the class diagram
+        {
+            List<string> waffleFlavourList = new List<string> { "Original", "Red Velvet", "Charcoal", "Pandan" };
+            
+            if (waffleFlavourList.Contains(WaffleFlavour))
+            {
+                waffleFlavourList.Remove(WaffleFlavour);
+            }
+
+            Console.WriteLine("\n" + "Waffle Flavours to choose from");
+            for (int i = 0; i< waffleFlavourList.Count; i++)
+            {
+                Console.WriteLine($"[{i+1}] {waffleFlavourList[i]}");
+            }
+  
+            string newWaffleFlavour;
+            while (true)
+            {
+                Console.Write("\n" + "Enter updated flavour of Waffle Ice Cream: ");
+                newWaffleFlavour = Console.ReadLine();
+
+                if (newWaffleFlavour.ToLower() == "original")
+                {
+                    WaffleFlavour = "Original";
+                }
+                else if (newWaffleFlavour.ToLower() == "red velvet")
+                {
+                    WaffleFlavour = "Red Velvet";
+                }
+                else if (newWaffleFlavour.ToLower() == "charcoal")
+                {
+                    WaffleFlavour = "Charcoal";
+                }
+                else if (newWaffleFlavour.ToLower() == "pandan")
+                {
+                    WaffleFlavour = "Pandan";
+                }
+                else if (newWaffleFlavour == "1" || newWaffleFlavour == "2" || newWaffleFlavour == "3" || newWaffleFlavour == "4")
+                {
+                    int index = Convert.ToInt32(newWaffleFlavour);
+                    WaffleFlavour = waffleFlavourList[index - 1];
+                }
+                else
+                {
+                    Console.WriteLine("Please reply with an option from the above menu");
+                    continue;
+                }
+
+                break;
+            }
         }
 
         public override string ToString()

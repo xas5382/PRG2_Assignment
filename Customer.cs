@@ -1,4 +1,9 @@
-﻿using System;
+﻿//==========================================================
+// Student Number : S10257400
+// Student Name : See Wai Kee, Audrey
+//==========================================================
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -58,6 +63,7 @@ namespace S10257400_PRG2Assignment
             Name = name;
             MemberId = memberId;
             Dob = dob;
+            OrderHistory = new List<Order>();
             Rewards = new PointCard();
         }
 
@@ -65,7 +71,7 @@ namespace S10257400_PRG2Assignment
         {
             CurrentOrder.TimeFulfilled = DateTime.Now;
             OrderHistory.Add(CurrentOrder);
-            CurrentOrder = null;
+            CurrentOrder = new Order();
             return OrderHistory.Last();
         }
 

@@ -1,4 +1,9 @@
-﻿using System;
+﻿//==========================================================
+// Student Number : S10257400
+// Student Name : See Wai Kee, Audrey
+//==========================================================
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -41,7 +46,7 @@ namespace S10257400_PRG2Assignment
 
         public override string ToString() 
         {
-            return type + premium + Quantity;
+            return ($"{Type,-13} {Premium, -8} {Quantity}");
         }
     }
 }

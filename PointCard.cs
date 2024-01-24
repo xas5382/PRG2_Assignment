@@ -38,11 +38,21 @@ namespace S10257400_PRG2Assignment
         {
             Points = points;
             PunchCard = punchCard;
+            Tier = "Ordinary";
         }
 
-        public void AddPoints(int addPoints)
+        public void AddPoints(int amountSpent)
         {
-            Points += points;
+            Points += Convert.ToInt32(Math.Floor(amountSpent * 0.72));
+            
+            if (Points >= 50 && Points < 100)
+            {
+                Tier = "Silver";
+            }
+            else if (Points >= 100)
+            {
+                Tier = "Gold";
+            }
         }
 
         public void RedeemPoints(int redeemedPoints)
@@ -58,12 +68,17 @@ namespace S10257400_PRG2Assignment
             if (PunchCard == 10)
             {
                 Console.WriteLine("Customer has ordered 10 Ice Creams. This is the 11th Ice Cream.");
-                punchCard = 0;
+                PunchCard = 0;
             }
             else
             {
-                punchCard++;
+                PunchCard++;
             }
+        }
+
+        public override string ToString()
+        {
+            return ($"Punch card has  ");
         }
     }
 }

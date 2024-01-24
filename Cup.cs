@@ -1,4 +1,9 @@
-﻿using System;
+﻿//==========================================================
+// Student Number : S10257400
+// Student Name : See Wai Kee, Audrey
+//==========================================================
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,6 +14,7 @@ namespace S10257400_PRG2Assignment
     class Cup : IceCream
     {
         public Cup() { }
+
         public Cup(string option, int scoops, List<Flavour> flavours, List<Topping> toppings) : base(option, scoops, flavours, toppings)
         {
             Option = option;
@@ -21,25 +27,25 @@ namespace S10257400_PRG2Assignment
         {
             double price = 0;
 
+            if (Scoops == 1)
+            {
+                price += 4;
+            }
+            else if (Scoops == 2)
+            {
+                price += 5.5;
+            }
+            else if (Scoops == 3)
+            {
+                price += 6.5;
+            }
+
             foreach (Flavour flavour in Flavours)
             {
                 if (flavour.Premium)
                 {
-                    price += 2;
+                    price += flavour.Quantity * 2;
                 }
-            }
-
-            if (Scoops == 1)
-            {
-                price = 4;
-            }
-            else if (Scoops == 2)
-            {
-                price = 5.5;
-            }
-            else if (Scoops == 3)
-            {
-                price = 6.5;
             }
 
             price += Toppings.Count() * 1;

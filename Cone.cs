@@ -1,4 +1,9 @@
-﻿using System;
+﻿//==========================================================
+// Student Number : S10257400
+// Student Name : See Wai Kee, Audrey
+//==========================================================
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -27,11 +32,24 @@ namespace S10257400_PRG2Assignment
         {
             double price = 0;
 
+            if (Scoops == 1)
+            {
+                price += 4;
+            }
+            else if (Scoops == 2)
+            {
+                price += 5.5;
+            }
+            else if (Scoops == 3)
+            {
+                price += 6.5;
+            }
+
             foreach (Flavour flavour in Flavours)
             {
                 if (flavour.Premium)
                 {
-                    price += 2;
+                    price += flavour.Quantity * 2;
                 }
             }
             
@@ -40,22 +58,35 @@ namespace S10257400_PRG2Assignment
                 price += 2;
             }
 
-            if (Scoops == 1)
-            {
-                price = 4;
-            }
-            else if (Scoops == 2)
-            {
-                price = 5.5;
-            }
-            else if (Scoops == 3)
-            {
-                price = 6.5;
-            }
-
             price += Toppings.Count() * 1;
 
             return price;
+        }
+
+        public void ModifyConeFlavour()   // method to modify cone flavour, not found in the class diagram
+        {
+            Console.WriteLine(Dipped ? "Ice Cream has a chocolate cone" : "Ice Cream does not have a chocolate cone");
+
+            while (true)
+            {
+                Console.Write(Dipped ? "Downgrade Ice Cream to an orginal cone? [Y/N]" : "Upgrade Ice Cream to a chocolate cone? [Y/N]");
+                string changeCone = Console.ReadLine();
+
+                if (changeCone.ToLower() == "y" && Dipped == false)
+                {
+                    Dipped = true;
+                    break;
+                }
+                else if (changeCone.ToLower() == "y" && Dipped == true)
+                {
+                    Dipped = false;
+                    break;
+                }
+                else if (changeCone.ToLower() != "y" && changeCone.ToLower() != "n")
+                {
+                    Console.WriteLine("Please reply with either \"Y\" or \"N\".");
+                }
+            }
         }
 
         public override string ToString()
