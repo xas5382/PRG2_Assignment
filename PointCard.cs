@@ -78,7 +78,14 @@ namespace S10257400_PRG2Assignment
 
         public override string ToString()
         {
-            return ($"Punch card has  ");
+            if (PunchCard == 10)
+            {
+                return ($"Punch card has been completed. Next Ice Cream ordered will be free.");
+            }
+            else
+            {
+                return ($"Customer is {10 - PunchCard} ice creams away from a free Ice Cream");
+            }   
         }
     }
 }
