@@ -275,7 +275,7 @@ namespace S10257400_PRG2Assignment
 
                         if (iceCreamInfo[0].ToLower() == chosenFlavour)
                         {
-                            chosenFlavour = char.ToUpper(chosenFlavour[0]) + chosenFlavour.Substring(1);
+                            chosenFlavour = iceCreamInfo[0];
 
                             if (chosenFlavour.ToLower() == "durian" || chosenFlavour.ToLower() == "ube" || chosenFlavour.ToLower() == "sea salt")
                             {
@@ -287,7 +287,7 @@ namespace S10257400_PRG2Assignment
                         }
                         else if (chosenFlavour.ToLower() == "seasalt")
                         {
-                            chosenFlavour = char.ToUpper(chosenFlavour[0]) + chosenFlavour.Substring(1);
+                            chosenFlavour = "Sea salt";
                             premiumIceCream = true;
                         }
                         else

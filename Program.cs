@@ -157,9 +157,7 @@ namespace S10257400_PRG2Assignment
                 }
                 else
                 {
-                    Console.WriteLine();
-                    Console.WriteLine("Goodbye");
-                    Console.WriteLine();
+                    Console.WriteLine("\n" + "Goodbye!");
                     break;
                 }
             }
@@ -667,7 +665,7 @@ namespace S10257400_PRG2Assignment
 
                         if (iceCreamInfo[0].ToLower() == chosenFlavour)
                         {
-                            chosenFlavour = char.ToUpper(chosenFlavour[0]) + chosenFlavour.Substring(1);
+                            chosenFlavour = iceCreamInfo[0];
 
                             if (chosenFlavour.ToLower() == "durian" || chosenFlavour.ToLower() == "ube" || chosenFlavour.ToLower() == "sea salt")
                             {
@@ -679,7 +677,7 @@ namespace S10257400_PRG2Assignment
                         }
                         else if (chosenFlavour.ToLower() == "seasalt")
                         {
-                            chosenFlavour = char.ToUpper(chosenFlavour[0]) + chosenFlavour.Substring(1);
+                            chosenFlavour = "Sea salt";
                             premiumIceCream = true;
                         }
                         else
@@ -727,7 +725,7 @@ namespace S10257400_PRG2Assignment
                         bool addFlavour = false;
                         foreach (Flavour flavour in flavourList)
                         {
-                            if (flavour.Type == chosenFlavour)
+                            if (flavour.Type.ToLower() == chosenFlavour)
                             {
                                 flavour.Quantity += orderedQuantity;
                                 addFlavour = true;
