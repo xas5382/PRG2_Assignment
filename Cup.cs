@@ -44,7 +44,7 @@ namespace S10257400_PRG2Assignment
             {
                 if (flavour.Premium)
                 {
-                    price += flavour.Quantity * 2;
+                    price += 2; ;
                 }
             }
 

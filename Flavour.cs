@@ -15,7 +15,6 @@ namespace S10257400_PRG2Assignment
     {
         private string type;
         private bool premium;
-        private int quantity;
 
         public string Type
         { 
@@ -29,24 +28,17 @@ namespace S10257400_PRG2Assignment
             set { premium = value; }
         }
 
-        public int Quantity
-        {
-            get { return quantity; }
-            set { quantity = value; }
-        }
-
         public Flavour() { }
 
-        public Flavour(string type, bool premium, int quantity) 
+        public Flavour(string type, bool premium) 
         {
             Type = type;
             Premium = premium;
-            Quantity = quantity;
         }
 
         public override string ToString() 
         {
-            return ($"{Type,-13} {Premium, -8} {Quantity}");
+            return ($"{Type,-13} {Premium, -8}");
         }
     }
 }
