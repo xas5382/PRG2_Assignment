@@ -55,8 +55,8 @@ namespace S10257400_PRG2Assignment
         public void ModifyIceCream(int index)   // method to determine how to modify ice cream object, not found in the class diagram
         {
             IceCream iceCreamToChange = iceCreamList[index - 1];
-            int modificationChoice = IceCreamModificationMenu();
-            
+            int modificationChoice = IceCreamModificationMenu(iceCreamToChange);
+
             if (modificationChoice == 1)
             {
                 IceCream newIceCream = ModifyIceCreamType(iceCreamToChange);
@@ -102,14 +102,33 @@ namespace S10257400_PRG2Assignment
             }
         }
 
-        public int IceCreamModificationMenu()   // method to display types of modifications user can make to their ice cream object, not found in the class diagram
+        public int IceCreamModificationMenu(IceCream iceCreamToChange)   // method to display types of modifications user can make to their ice cream object, not found in the class diagram
         {
-            Console.WriteLine("Parts of Ice Cream that can be changed \n" + "[1] Type of Ice Cream \n" + "[2] Number of Scoops \n" + 
-                "[3] Flavour of Ice Cream \n" + "[4] Toppings chosen \n" + "[5] Change the cone flavour \n" + "[6] Change the waffle flavour");
+            List<string> menuList = new List<string> { "Type of Ice Cream", "Number of Scoops", "Flavour of Ice Cream", 
+                "Toppings chosen", "Change the cone flavour", "Change the waffle flavour" };
+            Console.WriteLine("Parts of Ice Cream that can be changed");
+
+            if (iceCreamToChange is Cup)
+            {
+                menuList.RemoveAt(5);
+                menuList.RemoveAt(4);
+            }
+            if (iceCreamToChange is Cone)
+            {
+                menuList.RemoveAt(5);
+            }
+            if (iceCreamToChange is Waffle)
+            {
+                menuList.RemoveAt(4);
+            }
+
+            for (int i = 0; i < menuList.Count; i++)
+            {
+                Console.WriteLine($"[{i+1}] {menuList[i]}");
+            }
 
             int choice;
-
-            while (true)        // Loop to ensure user input is an integer between 1 and 6
+            while (true)        // Loop to ensure user input is an integer between 1 and and the total number of options in menuList to prevent an error from occuring
             {
                 Console.Write("Enter your option: ");
 
@@ -119,17 +138,17 @@ namespace S10257400_PRG2Assignment
                 }
                 catch (FormatException)
                 {
-                    Console.WriteLine("Invalid option. Please enter an option from 1 to 6 as seen in above the menu.");
+                    Console.WriteLine($"Invalid option. Please enter an option from 1 to {menuList.Count()} as seen in above the menu.");
                     continue;
                 }
 
-                if (choice >= 1 && choice <= 6)
+                if (choice >= 1 && choice <= menuList.Count())
                 {
                     return choice;
                 }
                 else
                 {
-                    Console.WriteLine("Invalid option. Please enter an option from 1 to 6 as seen in above the menu.");
+                    Console.WriteLine($"Invalid option. Please enter an option from 1 to {menuList.Count()} as seen in above the menu.");
                 }
             }
         }
@@ -245,7 +264,6 @@ namespace S10257400_PRG2Assignment
 
             orderInfo.Append($"Order ID: {Id:D2} \n");
             orderInfo.Append($"Timestamp: {TimeReceived.ToString("G")} \n");
-
 
             foreach (IceCream iceCream in IceCreamList)
             {

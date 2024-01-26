@@ -65,23 +65,25 @@ namespace S10257400_PRG2Assignment
 
         public void ModifyWaffleFlavour()   // method to modify waffle flavour, not found in the class diagram
         {
-            List<string> waffleFlavourList = new List<string> { "Original", "Red Velvet", "Charcoal", "Pandan" };
+            List<string> waffleFlavourList = new List<string> { "Original , 0", "Red Velvet, 3", "Charcoal, 3", "Pandan, 3" };
             
             if (waffleFlavourList.Contains(WaffleFlavour))
             {
                 waffleFlavourList.Remove(WaffleFlavour);
             }
 
-            Console.WriteLine("\n" + "Waffle Flavours to choose from");
+            Console.WriteLine("Waffle Flavours to choose from and their additional costs");
+            Console.WriteLine("{0,-17} {1}", "Flavour", "Add on Cost"); ;
             for (int i = 0; i< waffleFlavourList.Count; i++)
             {
-                Console.WriteLine($"[{i+1}] {waffleFlavourList[i]}");
+                string[] info = waffleFlavourList[i].Split(",");
+                Console.WriteLine($"[{i+1}] {info[0], -12} {info[1]}");
             }
-  
+
             string newWaffleFlavour;
             while (true)
             {
-                Console.Write("\n" + "Enter updated flavour of Waffle Ice Cream: ");
+                Console.Write("\n" + "Which waffle flavour would you like? ");
                 newWaffleFlavour = Console.ReadLine();
 
                 if (newWaffleFlavour.ToLower() == "original")
@@ -103,7 +105,7 @@ namespace S10257400_PRG2Assignment
                 else if (newWaffleFlavour == "1" || newWaffleFlavour == "2" || newWaffleFlavour == "3" || newWaffleFlavour == "4")
                 {
                     int index = Convert.ToInt32(newWaffleFlavour);
-                    WaffleFlavour = waffleFlavourList[index - 1];
+                    WaffleFlavour = waffleFlavourList[index - 1].Split(",")[0];
                 }
                 else
                 {

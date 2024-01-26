@@ -59,14 +59,14 @@ namespace S10257400_PRG2Assignment
             List<string> iceCreamFlavourList = new List<string>();
             string[] csvLines = File.ReadAllLines("flavours.csv");
 
+            Console.WriteLine("\n" + "Flavours of Ice Cream that are Available and their Cost" + "\n" + "{0,-17} {1}", "Flavour", "Add On Cost");
             for (int i = 1; i < csvLines.Length; i++)
             {
                 string[] info = csvLines[i].Split(",");
                 iceCreamFlavourList.Add(info[0]);
                 Console.WriteLine($"[{i}] {info[0],-13} {info[1]}");
             }
-
-            Console.WriteLine("\n" + "Flavours of Ice Cream that are Available and their Cost" + "\n" + "{0,-17} {1}", "Flavour", "Add On Cost");
+            Console.WriteLine("[0] {0,-13} {1}", "No Flavour", "0" + "\n");
 
             List<Flavour> customerflavourList = new List<Flavour>();
             string chosenFlavour;
@@ -77,13 +77,19 @@ namespace S10257400_PRG2Assignment
                 bool premiumIceCream = false;
                 Console.Write("Enter your desired flavour of ice cream: ");
                 chosenFlavour = Console.ReadLine();
+
                 int flavourIndex;
 
                 try
                 {
                     flavourIndex = Convert.ToInt32(chosenFlavour);
-
-                    if (flavourIndex >= 1 && flavourIndex <= iceCreamFlavourList.Count())
+                    
+                    if (flavourIndex == 0)
+                    {
+                        chosenFlavour = $"Plain {Option}";
+                        scoopsOfIceCream--;
+                    }
+                    else if (flavourIndex >= 1 && flavourIndex <= iceCreamFlavourList.Count())
                     {
                         string[] info = iceCreamFlavourList[flavourIndex - 1].Split(",");
                         chosenFlavour = info[0];
@@ -119,6 +125,12 @@ namespace S10257400_PRG2Assignment
                             break;
                         }
                     }
+                    if (chosenFlavour.ToLower() == "noflavour")
+                    {
+                        chosenFlavour = $"Plain {Option}";
+                        scoopsOfIceCream--;
+                        correctFlavour = true;
+                    }
 
                     if (!correctFlavour)
                     {
@@ -135,90 +147,65 @@ namespace S10257400_PRG2Assignment
                 customerflavourList.Add(new Flavour(chosenFlavour, premiumIceCream));
             }
 
-            if (!Flavours.SequenceEqual(customerflavourList))
-            {
-                Flavours = customerflavourList;
-            }
-            else
-            {
-                Console.WriteLine("\n" + "The modified list of Ice Cream Flavours is the same as the original list of Ice Cream Flavours");
-            }
+            Flavours = customerflavourList;
         }
 
         public void ModifyIceCreamToppings()
         {
             List<Topping> customerToppingList = new List<Topping>();
             string[] csvLines = File.ReadAllLines("toppings.csv");
-            
+
+            Console.WriteLine("\n" + "Ice Cream Toppings that are Available and their Cost" + "\n" + "{0,-17} {1}", "Toppings", "Add On Cost");
             for (int i = 1; i < csvLines.Length; i++)
             {
                 string[] info = csvLines[i].Split(",");
                 Console.WriteLine($"[{i}] {info[0],-13} {info[1]}");
             }
+            Console.WriteLine("[0] {0,-13} {1}", "No Toppings", "0.00" + "\n");
 
-            Console.WriteLine("\n" + "Ice Cream Toppings that are Available and their Cost" + "\n" + "{0,-17} {1}", "Toppings", "Add On Cost" + "\n");
             string[] numberSuffix = { "2nd", "3rd", "4th" };
 
             for (int count = 1; count <= 4; count++)
             {
-                Console.Write(count == 1 ? "Which topping do you want? " : $"Do you wish to add a {numberSuffix[count - 2]} topping to your ice cream [Y/N]? ");
-                string addToppings = Console.ReadLine();
-
-                if (addToppings.ToLower() == "n")
+                if (count == 1)
                 {
-                    break;
-                }
-                else if (addToppings.ToLower() == "y" || count == 1)
-                {
-                    if (count != 1)
-                    {
-                        Console.Write("Enter your desired topping: ");
-                        addToppings = Console.ReadLine();
-                    }
-
-                    if (addToppings == "1")
-                    {
-                        customerToppingList.Add(new Topping("Sprinkles"));
-                    }
-                    else if (addToppings == "2")
-                    {
-                        customerToppingList.Add(new Topping("Mochi"));
-                    }
-                    else if (addToppings == "3")
-                    {
-                        customerToppingList.Add(new Topping("Sago"));
-                    }
-                    else if (addToppings == "4")
-                    {
-                        customerToppingList.Add(new Topping("Oreos"));
-                    }
-                    else if (addToppings.ToLower() == "sprinkles" || addToppings.ToLower() == "mochi" ||
-                        addToppings.ToLower() == "sago" || addToppings.ToLower() == "oreos")
-                    {
-                        addToppings = char.ToUpper(addToppings[0]) + addToppings.Substring(1);
-                        customerToppingList.Add(new Topping(addToppings));
-                    }
-                    else
-                    {
-                        Console.WriteLine("Invalid topping entered. Please enter a valid topping from the list of available toppings found above.");
-                        count--;
-                    }
+                    Console.Write("Which topping option do you want? ");
                 }
                 else
                 {
-                    Console.WriteLine("Please reply with either \"Y\" or \"N\".");
+                    Console.Write($"What will your {numberSuffix[count - 2]} topping option be? ");
+                }
+
+                string chosenTopping = Console.ReadLine();
+                chosenTopping.Replace(" ", "");
+                if (chosenTopping == "1" || chosenTopping.ToLower() == "sprinkles")
+                {
+                    customerToppingList.Add(new Topping("Sprinkles"));
+                }
+                else if (chosenTopping == "2" || chosenTopping.ToLower() == "mochi")
+                {
+                    customerToppingList.Add(new Topping("Mochi"));
+                }
+                else if (chosenTopping == "3" || chosenTopping.ToLower() == "sago")
+                {
+                    customerToppingList.Add(new Topping("Sago"));
+                }
+                else if (chosenTopping == "4" || chosenTopping.ToLower() == "oreos")
+                {
+                    customerToppingList.Add(new Topping("Oreos"));
+                }
+                else if (chosenTopping.ToLower() == "notoppings" || chosenTopping == "0")
+                {
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine("Invalid topping entered. Please enter a valid topping from the list of available toppings found above.");
                     count--;
                 }
             }
 
-            if (Toppings.SequenceEqual(customerToppingList))
-            {
-                Toppings = customerToppingList;
-            }
-            else
-            {
-                Console.WriteLine("\n" + "The modified list of Ice Cream Topping(s) is the same as the original list of Ice Cream Topping(s)");
-            }
+            Toppings = customerToppingList;
         }
 
         public override string ToString()
@@ -246,20 +233,48 @@ namespace S10257400_PRG2Assignment
                 iceCreamInfo += ($"- {kvp.Value} {kvp.Key} \n");
             }
 
-            for (int i = 0; i < Toppings.Count(); i++)
+            iceCreamInfo += ("Topping(s) \n");
+
+            if (Toppings.Count > 0)
             {
-                if (i == 0)
+                Dictionary<string, int> quantityPerTopping = new Dictionary<string, int>();
+                
+                for (int i = 0; i < Toppings.Count(); i++)
                 {
-                    iceCreamInfo += ("Topping(s) \n");
-                    iceCreamInfo += ($"- {Toppings[i].Type} \n");
+                    if (quantityPerTopping.ContainsKey(Toppings[i].Type))
+                    {
+                        quantityPerTopping[Toppings[i].Type] += 1;
+                    }
+                    else
+                    {
+                        quantityPerTopping[Toppings[i].Type] = 1;
+                    }
                 }
-                else
+
+                foreach (KeyValuePair<string, int> kvp in quantityPerTopping)
                 {
-                    iceCreamInfo += ($"- {Toppings[i].Type} \n");
+                    iceCreamInfo += ($"- {kvp.Value} {kvp.Key} \n");
                 }
+            }
+            else
+            {
+                iceCreamInfo += ($"- None \n");
             }
 
             return iceCreamInfo.ToString();
         }
     }
 }
+
+/*
+ 
+            if (Toppings.SequenceEqual(customerToppingList))
+            {
+                
+            }
+            else
+            {
+                Console.WriteLine("\n" + "The modified list of Ice Cream Topping(s) is the same as the original list of Ice Cream Topping(s)");
+            }
+            Console.WriteLine("\n" + "The modified list of Ice Cream Flavours is the same as the original list of Ice Cream Flavours");
+ */
