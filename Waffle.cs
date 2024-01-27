@@ -72,7 +72,7 @@ namespace S10257400_PRG2Assignment
                 waffleFlavourList.Remove(WaffleFlavour);
             }
 
-            Console.WriteLine("Waffle Flavours to choose from and their additional costs");
+            Console.WriteLine("\n" + "Waffle Flavours to choose from and their additional costs");
             Console.WriteLine("{0,-17} {1}", "Flavour", "Add on Cost"); ;
             for (int i = 0; i< waffleFlavourList.Count; i++)
             {

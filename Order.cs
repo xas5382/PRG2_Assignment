@@ -78,27 +78,13 @@ namespace S10257400_PRG2Assignment
             }
             else if (modificationChoice == 5)
             {
-                if (iceCreamToChange is Cone)
-                {
-                    Cone cone = (Cone)iceCreamToChange;
-                    cone.ModifyConeFlavour();
-                }
-                else
-                {
-                    Console.WriteLine("\n" + "Ice Cream chosen in not a Cone Ice Cream" + "\n" + "Please choose a Cone Ice Cream");
-                }
+                Cone cone = (Cone)iceCreamToChange;
+                cone.ModifyConeFlavour();
             }
-            else 
+            else if (modificationChoice == 6)
             {
-                if (iceCreamToChange is Waffle)
-                {
-                    Waffle waffle = (Waffle)iceCreamToChange;
-                    waffle.ModifyWaffleFlavour();
-                }
-                else
-                {
-                    Console.WriteLine("\n" + "Ice Cream chosen in not a Waffle Ice Cream" + "\n" + "Please choose a Waffle Ice Cream");
-                }
+                Waffle waffle = (Waffle)iceCreamToChange;
+                waffle.ModifyWaffleFlavour();
             }
         }
 
@@ -126,9 +112,11 @@ namespace S10257400_PRG2Assignment
             {
                 Console.WriteLine($"[{i+1}] {menuList[i]}");
             }
+            Console.WriteLine($"[0] Exit");
+            Console.WriteLine();
 
             int choice;
-            while (true)        // Loop to ensure user input is an integer between 1 and and the total number of options in menuList to prevent an error from occuring
+            while (true)        // Loop to ensure user input is an integer between 0 and and the total number of options in menuList to prevent an error from occuring
             {
                 Console.Write("Enter your option: ");
 
@@ -138,17 +126,17 @@ namespace S10257400_PRG2Assignment
                 }
                 catch (FormatException)
                 {
-                    Console.WriteLine($"Invalid option. Please enter an option from 1 to {menuList.Count()} as seen in above the menu.");
+                    Console.WriteLine($"Invalid option. Please enter an option from 0 to {menuList.Count()} as seen in above the menu.");
                     continue;
                 }
 
-                if (choice >= 1 && choice <= menuList.Count())
+                if (choice >= 0 && choice <= menuList.Count())
                 {
                     return choice;
                 }
                 else
                 {
-                    Console.WriteLine($"Invalid option. Please enter an option from 1 to {menuList.Count()} as seen in above the menu.");
+                    Console.WriteLine($"Invalid option. Please enter an option from 0 to {menuList.Count()} as seen in above the menu.");
                 }
             }
         }
@@ -233,6 +221,8 @@ namespace S10257400_PRG2Assignment
                 }
             }
 
+            
+
             iceCreamToChange.Scoops = numIceCreamScoops;
         }
         
@@ -274,3 +264,14 @@ namespace S10257400_PRG2Assignment
         }
     }
 }
+
+/*
+                if (iceCreamToChange is Cone)
+                {
+                    
+                }
+                else
+                {
+                    Console.WriteLine("\n" + "Ice Cream chosen in not a Cone Ice Cream" + "\n" + "Please choose a Cone Ice Cream");
+                }
+ */

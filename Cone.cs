@@ -65,9 +65,11 @@ namespace S10257400_PRG2Assignment
 
         public void ModifyConeFlavour()   // method to modify cone flavour, not found in the class diagram
         {
+            Console.WriteLine();
+
             while (true)
             {
-                Console.Write(Dipped ? "Do you want to change Ice Cream cone to an orginal cone? [Y/N]" : "Do you want to change Ice Cream cone to a chocolate cone? [Y/N]");
+                Console.Write(Dipped ? "Do you want to change Ice Cream cone to an orginal cone [Y/N]? " : "Do you want to change Ice Cream cone to a chocolate cone [Y/N]? ");
                 string changeCone = Console.ReadLine();
 
                 if (changeCone.ToLower() == "y" && Dipped == false)

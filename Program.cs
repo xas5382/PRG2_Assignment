@@ -121,10 +121,10 @@ namespace S10257400_PRG2Assignment
 
                         int optionChosen = OrderModificationMenu();
                         Console.WriteLine();
-                        int iceCreamToChangeIndex = GetIceCreamToChange(customerOrder);
-
+                        
                         if (optionChosen == 1)
                         {
+                            int iceCreamToChangeIndex = GetIceCreamToChange(customerOrder);
                             Console.WriteLine();
                             customerOrder.ModifyIceCream(iceCreamToChangeIndex);
                         }
@@ -136,7 +136,7 @@ namespace S10257400_PRG2Assignment
                             currentOrder.AddIceCream(iceCream);
                             Console.WriteLine("Order has been made successfully");
                         }
-                        else
+                        else if (optionChosen == 3)
                         {
                             if (customerOrder.IceCreamList.Count() == 1)
                             {
@@ -147,6 +147,10 @@ namespace S10257400_PRG2Assignment
                                 int iceCreamIndex = GetIceCreamToChange(customerOrder) - 1;
                                 customerOrder.DeleteIceCream(iceCreamIndex);
                             }
+                        }
+                        else
+                        {
+                            continue;
                         }
                     }
                     else
@@ -524,11 +528,12 @@ namespace S10257400_PRG2Assignment
             Console.WriteLine("Options to Modify your Order");
             Console.WriteLine("[1] Choose an existing ice cream object to modify \n" +
                 "[2] Add an entirely new ice cream object to the order \n" +
-                "[3] Choose an existing ice cream object to delete from the order");
+                "[3] Choose an existing ice cream object to delete from the order \n" +
+                "[0] Exit \n");
 
             int choice;
 
-            while (true)        // Loop to ensure user input is an integer between 1 and 3
+            while (true)        // Loop to ensure user input is an integer between 0 and 3
             {
                 Console.Write("Enter your option: ");
 
@@ -538,17 +543,17 @@ namespace S10257400_PRG2Assignment
                 }
                 catch (FormatException)
                 {
-                    Console.WriteLine("Invalid option. Please enter an option from 1 to 3 as seen in above the menu.");
+                    Console.WriteLine("Invalid option. Please enter an option from 0 to 3 as seen in above the menu.");
                     continue;
                 }
 
-                if (choice >= 1 && choice <= 3)
+                if (choice >= 0 && choice <= 3)
                 {
                     return choice;
                 }
                 else
                 {
-                    Console.WriteLine("Invalid option. Please enter an option from 1 to 3 as seen in above the menu.");
+                    Console.WriteLine("Invalid option. Please enter an option from 0 to 3 as seen in above the menu.");
                 }
             }
         }
