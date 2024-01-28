@@ -71,7 +71,7 @@ namespace S10257400_PRG2Assignment
         {
             CurrentOrder.TimeFulfilled = DateTime.Now;
             OrderHistory.Add(CurrentOrder);
-            CurrentOrder = new Order();
+            CurrentOrder = default(Order);
             return OrderHistory.Last();
         }
 

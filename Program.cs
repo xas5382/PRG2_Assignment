@@ -18,7 +18,7 @@ namespace S10257400_PRG2Assignment
             Dictionary<int, Customer> customerDict = new Dictionary<int, Customer>();
             bool correctFile = CreateCustomers(customerDict);
             //AddCompletedOrders();
-            List<Order> completedOrderList = CreateCompletedOrderList(customerDict);
+            CreateCustomerOrderHistory(customerDict);
 
             Queue<Order> regularQueue = new Queue<Order>();
             Queue<Order> goldQueue = new Queue<Order>();
@@ -162,7 +162,7 @@ namespace S10257400_PRG2Assignment
                 }
                 else if (choice == 5)
                 {
-                    DisplayAmountSpent(completedOrderList);
+                    DisplayAmountSpent(customerDict);
                     Console.WriteLine();
                 }
                 else
@@ -235,9 +235,9 @@ namespace S10257400_PRG2Assignment
             return toppingList;
         }
 
-        static List<Order> CreateCompletedOrderList(Dictionary<int, Customer> customerDict)
+        static void CreateCustomerOrderHistory(Dictionary<int, Customer> customerDict)
         {
-            List<Order> completedOrderList = new List<Order>();
+            Dictionary<DateTime, Order> completedOrderDict = new Dictionary<DateTime, Order>();
 
             string[] csvLines = File.ReadAllLines("orders.csv");
 
@@ -296,19 +296,28 @@ namespace S10257400_PRG2Assignment
                 {
                     iceCream = new Cup(option, numOfScoops, flavourList, toppingList);
                 }
-
-                Order pastOrder = new Order(orderID, timeReceived);
-                pastOrder.TimeFulfilled = timeFulfilled;
-                pastOrder.AddIceCream(iceCream);
-                completedOrderList.Add(pastOrder);
-
-                if (customerDict.TryGetValue(memberID, out Customer customer))
+                bool addIceCream = false;
+                foreach (KeyValuePair<int, Customer> kvp in customerDict)
                 {
+                    foreach (Order order in kvp.Value.OrderHistory)
+                    {
+                        if (order.TimeReceived.ToString("g") == timeReceived.ToString("g"))
+                        {
+                            order.AddIceCream(iceCream);
+                            addIceCream = true;
+                            break;
+                        }
+                    }
+                }
+
+                if (!addIceCream && customerDict.TryGetValue(memberID, out Customer customer))
+                {
+                    Order pastOrder = new Order(orderID, timeReceived);
+                    pastOrder.TimeFulfilled = timeFulfilled;
+                    pastOrder.AddIceCream(iceCream);
                     customer.OrderHistory.Add(pastOrder);
                 }
             }
-
-            return completedOrderList;
         }
 
         static int DisplayMenu()
@@ -429,31 +438,27 @@ namespace S10257400_PRG2Assignment
             List<Flavour> customerFlavourList = new List<Flavour>();
             List<Topping> customerToppingList = new List<Topping>();
 
+            IceCream iceCream = null;
             if (typeOfIceCream.ToLower() == "cup")
             {
-                IceCream iceCream = new Cup(typeOfIceCream, scoopsOfIceCream, customerFlavourList, customerToppingList);
-                iceCream.ModifyIceCreamFlavours();
-                iceCream.ModifyIceCreamToppings();
-                return iceCream;
+                iceCream = new Cup(typeOfIceCream, scoopsOfIceCream, customerFlavourList, customerToppingList);
             }
             else if (typeOfIceCream.ToLower() == "cone")
             {
-                IceCream iceCream = new Cone(typeOfIceCream, scoopsOfIceCream, customerFlavourList, customerToppingList, false);
+                iceCream = new Cone(typeOfIceCream, scoopsOfIceCream, customerFlavourList, customerToppingList, false);
                 Cone cone = (Cone)iceCream;
                 cone.ModifyConeFlavour();
-                iceCream.ModifyIceCreamFlavours(); 
-                iceCream.ModifyIceCreamToppings();
-                return iceCream;
             }
             else
             {
-                IceCream iceCream = new Waffle(typeOfIceCream, scoopsOfIceCream, customerFlavourList, customerToppingList, "");
+                iceCream = new Waffle(typeOfIceCream, scoopsOfIceCream, customerFlavourList, customerToppingList, "");
                 Waffle waffle = (Waffle)iceCream;
                 waffle.ModifyWaffleFlavour();
-                iceCream.ModifyIceCreamFlavours();
-                iceCream.ModifyIceCreamToppings();
-                return iceCream;
             }
+
+            iceCream.ModifyIceCreamFlavours();
+            iceCream.ModifyIceCreamToppings();
+            return iceCream;
         }
 
         static string GetIceCreamType()
@@ -586,12 +591,13 @@ namespace S10257400_PRG2Assignment
             return iceCreamToChangeIndex;
         }
 
-        static void DisplayAmountSpent(List<Order> completedOrderList)
+        static void DisplayAmountSpent(Dictionary<int, Customer> customerDict)  
         {
             Dictionary<string, double> monthlyProfitsDict = new Dictionary<string, double>();
 
             string[] months = { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
 
+            
             foreach (string month in months)
             {
                 monthlyProfitsDict.Add(month, 0);
@@ -632,19 +638,45 @@ namespace S10257400_PRG2Assignment
 
             Console.WriteLine();
             double yearlyProfits = 0;
-            foreach (Order order in completedOrderList)
+            double priceFreeIceCream = 0;
+            foreach (KeyValuePair<int, Customer> kvp in customerDict)
             {
-                DateTime timeFulfilled = Convert.ToDateTime(order.TimeFulfilled);
+                List<Order> ordersInYear = new List<Order>();
 
-                if (timeFulfilled.Year == year)
+                foreach (Order order in kvp.Value.OrderHistory)
                 {
-                    string month = timeFulfilled.ToString("MMM");
+                    DateTime timeFulfilled = Convert.ToDateTime(order.TimeFulfilled);
+
+                    if (timeFulfilled.Year == year)
+                    {
+                        ordersInYear.Add(order);
+                    }
+                }
+
+                foreach (Order order in ordersInYear)
+                {
+                    string month = Convert.ToDateTime(order.TimeFulfilled).ToString("MMM");
                     double orderCost = order.CalculateTotal();
+
+                    if (order.TimeReceived.ToString("dd/MMMM") == kvp.Value.Dob.ToString("dd/MMMM") && order == ordersInYear[0])
+                    {
+                        Console.WriteLine(ordersInYear[0]);
+                        foreach (IceCream iceCream in ordersInYear[0].IceCreamList)
+                        {
+                            if (priceFreeIceCream < iceCream.CalculatePrice())
+                            {
+                                priceFreeIceCream = iceCream.CalculatePrice();
+                            }
+                        }
+
+                        orderCost -= priceFreeIceCream;
+                    }
+
                     yearlyProfits += orderCost;
                     monthlyProfitsDict[month] += orderCost;
                 }
             }
-
+            
             foreach (KeyValuePair<string, double> kvp in monthlyProfitsDict)
             {
                 Console.WriteLine($"{kvp.Key} {year}:   ${kvp.Value:F2}");

@@ -254,6 +254,11 @@ namespace S10257400_PRG2Assignment
 
             orderInfo.Append($"Order ID: {Id:D2} \n");
             orderInfo.Append($"Timestamp: {TimeReceived.ToString("G")} \n");
+            
+            if (TimeFulfilled != null)
+            {
+                orderInfo.Append($"Time Fulfilled: {TimeReceived.ToString("G")} \n");
+            }
 
             foreach (IceCream iceCream in IceCreamList)
             {
