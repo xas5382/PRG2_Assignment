@@ -69,7 +69,7 @@ namespace S10257400_PRG2Assignment
 
             while (true)
             {
-                Console.Write(Dipped ? "Do you want to change Ice Cream cone to an orginal cone [Y/N]? " : "Do you want to change Ice Cream cone to a chocolate cone [Y/N]? ");
+                Console.Write(Dipped ? "Do you want to change Ice Cream cone to an orginal cone [Y/N]? " : "Do you want to upgrade Ice Cream cone to a chocolate cone [Y/N]? ");
                 string changeCone = Console.ReadLine();
 
                 if (changeCone.ToLower() == "y" && Dipped == false)

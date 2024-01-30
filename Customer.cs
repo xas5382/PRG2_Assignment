@@ -69,10 +69,60 @@ namespace S10257400_PRG2Assignment
 
         public Order MakeOrder()
         {
-            CurrentOrder.TimeFulfilled = DateTime.Now;
-            OrderHistory.Add(CurrentOrder);
-            CurrentOrder = default(Order);
-            return OrderHistory.Last();
+            Order order = new Order(1, DateTime.Now);
+
+            Console.WriteLine("Types of Ice Cream Available");
+            Console.WriteLine("[1] Cup \n" + "[2] Cone \n" + "[3] Waffle" + "\n");
+
+            IceCream iceCream = null;
+            string iceCreamOption;
+            while (true)
+            {
+                Console.Write("Enter type of ice cream desired: ");
+                iceCreamOption = Console.ReadLine();
+
+                if (iceCreamOption == "1" || iceCreamOption.ToLower() == "cup")
+                {
+                    iceCream = new Cup("Cup", 0, new List<Flavour>(), new List<Topping>());
+                }
+                else if (iceCreamOption == "2" || iceCreamOption.ToLower() == "cone")
+                {
+                    iceCream = new Cone("Cone", 0, new List<Flavour>(), new List<Topping>(), false);
+                }
+                else if (iceCreamOption == "3" || iceCreamOption.ToLower() == "waffle")
+                {
+                    iceCream = new Waffle("Waffle", 0, new List<Flavour>(), new List<Topping>(), "");
+                }
+                else
+                {
+                    Console.WriteLine("Please enter an available option that is shown above. \n");
+                }
+
+                if (iceCream != null)
+                {
+                    break;
+                }
+            }
+
+            if (iceCream is Cone)
+            {
+                Cone cone = (Cone)iceCream;
+                cone.ModifyConeFlavour();
+            }
+            
+            if (iceCream is Waffle)
+            {
+                Waffle waffle = (Waffle)iceCream;
+                waffle.ModifyWaffleFlavour();
+            }
+
+            iceCream.ModifyIceCreamScoops();
+            iceCream.ModifyIceCreamFlavours();
+            iceCream.ModifyIceCreamToppings();
+
+            order.AddIceCream(iceCream);
+
+            return order;
         }
 
         public bool isBirthday()

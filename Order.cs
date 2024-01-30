@@ -65,7 +65,7 @@ namespace S10257400_PRG2Assignment
             }
             else if (modificationChoice == 2)
             {
-                ModifyIceCreamScoops(iceCreamToChange);
+                iceCreamToChange.ModifyIceCreamScoops();
                 iceCreamToChange.ModifyIceCreamFlavours();
             }
             else if (modificationChoice == 3)
@@ -112,7 +112,7 @@ namespace S10257400_PRG2Assignment
             {
                 Console.WriteLine($"[{i+1}] {menuList[i]}");
             }
-            Console.WriteLine($"[0] Exit");
+            Console.WriteLine($"[0] Exit to choose an option from the Main Menu");
             Console.WriteLine();
 
             int choice;
@@ -188,44 +188,6 @@ namespace S10257400_PRG2Assignment
             }
         }
 
-        public void ModifyIceCreamScoops(IceCream iceCreamToChange)
-        {
-            List<int> availableOption = new List<int> { 1, 2, 3 };
-            availableOption.Remove(iceCreamToChange.Scoops);
-
-            int numIceCreamScoops;
-            while (true)
-            {
-                Console.Write("\n" + "Enter the updated number of Ice Cream scoops: ");
-
-                try
-                {
-                    numIceCreamScoops = Convert.ToInt32(Console.ReadLine());
-                    
-                    if (availableOption.Contains(numIceCreamScoops))
-                    {
-                        break;
-                    }
-                    else if (numIceCreamScoops == iceCreamToChange.Scoops)
-                    {
-                        Console.WriteLine($"Please do not enter the previously entered quantity of {iceCreamToChange.Scoops} sccops of Ice Cream");
-                    }
-                    else
-                    {
-                        Console.WriteLine($"Please enter a quantity that is either {availableOption[0]} scoop(s) or {availableOption[1]} scoop(s)");
-                    }
-                }
-                catch
-                {
-                    Console.WriteLine($"Please enter a quantity that is either {availableOption[0]} scoop(s) or {availableOption[1]} scoop(s)");
-                }
-            }
-
-            
-
-            iceCreamToChange.Scoops = numIceCreamScoops;
-        }
-        
         public void AddIceCream(IceCream iceCream)
         {
             IceCreamList.Add(iceCream);
@@ -250,6 +212,7 @@ namespace S10257400_PRG2Assignment
 
         public override string ToString()
         {
+            int i = 1;
             StringBuilder orderInfo = new StringBuilder();
 
             orderInfo.Append($"Order ID: {Id:D2} \n");
@@ -257,12 +220,13 @@ namespace S10257400_PRG2Assignment
             
             if (TimeFulfilled != null)
             {
-                orderInfo.Append($"Time Fulfilled: {TimeReceived.ToString("G")} \n");
+                orderInfo.Append($"Time Fulfilled: {Convert.ToDateTime(TimeFulfilled).ToString("G")} \n");
             }
 
             foreach (IceCream iceCream in IceCreamList)
             {
-                orderInfo.Append($"{iceCream}");
+                orderInfo.Append($"[{i}] {iceCream}");
+                i++;
             }
 
             return orderInfo.ToString();

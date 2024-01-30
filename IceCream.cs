@@ -54,6 +54,80 @@ namespace S10257400_PRG2Assignment
 
         public abstract double CalculatePrice();
 
+        public void ModifyIceCreamScoops()
+        {
+            List<int> availableOption = new List<int> { 1, 2, 3 };
+            availableOption.Remove(Scoops);
+
+            while (true)
+            {
+                if (availableOption.Count() == 3)
+                {
+                    Console.Write("\n" + "How many scoops of Ice Cream do you want? ");
+                }
+                else
+                {
+                    Console.Write("\n" + "Enter the updated number of Ice Cream scoops: ");
+                }
+
+                string numIceCreamScoops = Console.ReadLine();
+                try
+                {
+                    int intNumIceCreamScoops = Convert.ToInt32(numIceCreamScoops);
+
+                    if (availableOption.Contains(intNumIceCreamScoops))
+                    {
+                        Scoops = intNumIceCreamScoops;
+                        break;
+                    }
+                    else if (intNumIceCreamScoops == Scoops)
+                    {
+                        Console.WriteLine($"Please do not enter the previously entered quantity of {Scoops} sccops of Ice Cream");
+                    }
+                    else
+                    {
+                        if (availableOption.Count() == 2)
+                        {
+                            Console.WriteLine($"Please enter a quantity that is either {availableOption[0]} scoop(s) or {availableOption[1]} scoop(s)");
+                        }
+                        else
+                        {
+                            Console.WriteLine("Invalid number of ice cream scoops ordered. Please enter a quantity from 1 to 3.");
+                        }
+                    }
+                }
+                catch (FormatException)
+                {
+                    if (numIceCreamScoops.ToLower() == "one" && availableOption.Contains(1))
+                    {
+                        Scoops = 1;
+                        break;
+                    }
+                    else if (numIceCreamScoops.ToLower() == "two" && availableOption.Contains(2))
+                    {
+                        Scoops = 2;
+                        break;
+                    }
+                    else if (numIceCreamScoops.ToLower() == "three" && availableOption.Contains(3))
+                    {
+                        Scoops = 3;
+                        break;
+                    }
+                    else
+                    {
+                        if (availableOption.Count() == 2)
+                        {
+                            Console.WriteLine($"Please enter a quantity that is either {availableOption[0]} scoop(s) or {availableOption[1]} scoop(s)");
+                        }
+                        else
+                        {
+                            Console.WriteLine("Invalid number of ice cream scoops ordered. Please enter a quantity from 1 to 3. \n");
+                        }
+                    }
+                }
+            }
+        }
+
         public void ModifyIceCreamFlavours()
         {
             List<string> iceCreamFlavourList = new List<string>();
@@ -86,7 +160,7 @@ namespace S10257400_PRG2Assignment
                     
                     if (flavourIndex == 0)
                     {
-                        chosenFlavour = $"Plain {Option}";
+                        chosenFlavour = $"No Flavour";
                         scoopsOfIceCream--;
                     }
                     else if (flavourIndex >= 1 && flavourIndex <= iceCreamFlavourList.Count())
@@ -97,7 +171,7 @@ namespace S10257400_PRG2Assignment
                     }
                     else
                     {
-                        Console.WriteLine("Please choose an ice cream flavour from the list of available ice cream flavours.");
+                        Console.WriteLine("Please choose an ice cream flavour from the list of available ice cream flavours. \n");
                         continue;
                     }
                 }
@@ -127,14 +201,14 @@ namespace S10257400_PRG2Assignment
                     }
                     if (chosenFlavour.ToLower() == "noflavour")
                     {
-                        chosenFlavour = $"Plain {Option}";
+                        chosenFlavour = $"No Flavour";
                         scoopsOfIceCream--;
                         correctFlavour = true;
                     }
 
                     if (!correctFlavour)
                     {
-                        Console.WriteLine("Please choose an ice cream flavour from the list of available ice cream flavours.");
+                        Console.WriteLine("Please choose an ice cream flavour from the list of available ice cream flavours. \n");
                         continue;
                     }
                 }
@@ -200,7 +274,7 @@ namespace S10257400_PRG2Assignment
                 }
                 else
                 {
-                    Console.WriteLine("Invalid topping entered. Please enter a valid topping from the list of available toppings found above.");
+                    Console.WriteLine("Invalid topping entered. Please enter a valid topping from the list of available toppings found above. \n");
                     count--;
                 }
             }
@@ -210,6 +284,11 @@ namespace S10257400_PRG2Assignment
 
         public override string ToString()
         {
+            string iceCreamInfo = "";
+
+            iceCreamInfo += ($"{Option} Ice Cream \n");
+            iceCreamInfo += ($"{Scoops} Scoop(s) of Ice Cream \n");
+
             Dictionary<string, int> scoopesPerFlavour = new Dictionary<string, int>();
             for (int i = 0; i < Flavours.Count(); i++)
             {
@@ -223,11 +302,6 @@ namespace S10257400_PRG2Assignment
                 }
             }
 
-            string iceCreamInfo = "";
-            
-            iceCreamInfo += ($"{Option} Ice Cream \n");
-            iceCreamInfo += ($"{Scoops} scoops of Ice Cream \n");
-            
             foreach (KeyValuePair <string, int> kvp in scoopesPerFlavour)
             {
                 iceCreamInfo += ($"- {kvp.Value} {kvp.Key} \n");

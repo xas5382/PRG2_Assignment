@@ -72,7 +72,6 @@ namespace S10257400_PRG2Assignment
         {
             if (PunchCard == 10)
             {
-                Console.WriteLine("Customer has ordered 10 Ice Creams. This is the 11th Ice Cream.");
                 PunchCard = 0;
             }
             else
