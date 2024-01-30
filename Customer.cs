@@ -69,8 +69,6 @@ namespace S10257400_PRG2Assignment
 
         public Order MakeOrder()
         {
-            Order order = new Order(1, DateTime.Now);
-
             Console.WriteLine("Types of Ice Cream Available");
             Console.WriteLine("[1] Cup \n" + "[2] Cone \n" + "[3] Waffle" + "\n");
 
@@ -83,15 +81,15 @@ namespace S10257400_PRG2Assignment
 
                 if (iceCreamOption == "1" || iceCreamOption.ToLower() == "cup")
                 {
-                    iceCream = new Cup("Cup", 0, new List<Flavour>(), new List<Topping>());
+                    iceCream = new Cup("Cup", -1, new List<Flavour>(), new List<Topping>());
                 }
                 else if (iceCreamOption == "2" || iceCreamOption.ToLower() == "cone")
                 {
-                    iceCream = new Cone("Cone", 0, new List<Flavour>(), new List<Topping>(), false);
+                    iceCream = new Cone("Cone", -1, new List<Flavour>(), new List<Topping>(), false);
                 }
                 else if (iceCreamOption == "3" || iceCreamOption.ToLower() == "waffle")
                 {
-                    iceCream = new Waffle("Waffle", 0, new List<Flavour>(), new List<Topping>(), "");
+                    iceCream = new Waffle("Waffle", -1, new List<Flavour>(), new List<Topping>(), "");
                 }
                 else
                 {
@@ -119,10 +117,18 @@ namespace S10257400_PRG2Assignment
             iceCream.ModifyIceCreamScoops();
             iceCream.ModifyIceCreamFlavours();
             iceCream.ModifyIceCreamToppings();
-
-            order.AddIceCream(iceCream);
-
-            return order;
+            
+            if (CurrentOrder != null)
+            {
+                CurrentOrder.AddIceCream(iceCream);
+                return CurrentOrder;
+            }
+            else
+            {
+                Order order = new Order(1, DateTime.Now);
+                order.AddIceCream(iceCream);
+                return order;
+            }
         }
 
         public bool isBirthday()

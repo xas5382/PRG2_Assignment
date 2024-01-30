@@ -82,6 +82,10 @@ namespace S10257400_PRG2Assignment
                     Dipped = false;
                     break;
                 }
+                else if (changeCone.ToLower() == "n")
+                {
+                    break;
+                }
                 else if (changeCone.ToLower() != "y" && changeCone.ToLower() != "n")
                 {
                     Console.WriteLine("Please reply with either \"Y\" or \"N\".");

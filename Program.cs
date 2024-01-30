@@ -53,8 +53,9 @@ namespace S10257400_PRG2Assignment
 
                     Console.WriteLine();
                     Order customerCurrentOrder = customer.MakeOrder();
+                    customer.CurrentOrder = customerCurrentOrder;
 
-                    while (true)   // whil loop to add a another ice cream to the current order and ensure user input is validated
+                    while (true)   // while loop to add a another ice cream to the current order and ensure user input is validated
                     {
                         Console.Write("\n" + "Would you like to add another ice cream to the order [Y/N]? ");
                         string addIceCream = Console.ReadLine();
@@ -66,8 +67,7 @@ namespace S10257400_PRG2Assignment
                         else if (addIceCream.ToLower() == "y")
                         {
                             Console.WriteLine();
-                            IceCream additionalIceCream = CreateCustomerOrder();
-                            customerCurrentOrder.AddIceCream(additionalIceCream);
+                            customerCurrentOrder = customer.MakeOrder();
                             continue;
                         }
                         else
@@ -75,8 +75,6 @@ namespace S10257400_PRG2Assignment
                             Console.WriteLine("Please reply with either \"Y\" or \"N\".");
                         }
                     }
-
-                    customer.CurrentOrder = customerCurrentOrder;
 
                     //  place the customer's order in one of the 2 queue systems (Gold/Normal) depending on their memebership tier
                     if (customer.Rewards.Tier == "Gold")
@@ -128,10 +126,8 @@ namespace S10257400_PRG2Assignment
                         }
                         else if (optionChosen == 2)   // customer wants to add an IceCream to current order
                         {
-                            Order currentOrder = customer.CurrentOrder;
-                            IceCream iceCream = CreateCustomerOrder();
-                            currentOrder.AddIceCream(iceCream);
-                            Console.WriteLine("\n" + "Order has been made successfully");
+                            customer.MakeOrder();
+                            Console.WriteLine("\n" + "Ice Cream has been successfully added to your current order");
                         }
                         else if (optionChosen == 3)   // customer wants to remove an IceCream from current order
                         {
@@ -319,7 +315,7 @@ namespace S10257400_PRG2Assignment
                 }
                 catch (FormatException)
                 {
-                    Console.WriteLine("Invalid option. Please enter a number from 0 to 5 as seen in the menu.");
+                    Console.WriteLine("Invalid option. Please enter a number from 0 to 5 as seen in the menu. \n");
                     continue;
                 }
 
@@ -329,7 +325,7 @@ namespace S10257400_PRG2Assignment
                 }
                 else
                 {
-                    Console.WriteLine("Invalid option. Please enter a number from 0 to 5 as seen in the menu.");
+                    Console.WriteLine("Invalid option. Please enter a number from 0 to 5 as seen in the menu. \n");
                 }
             }
         }
@@ -406,68 +402,6 @@ namespace S10257400_PRG2Assignment
             }
         }
 
-        static IceCream CreateCustomerOrder()
-        {
-            string typeOfIceCream = GetIceCreamType();
-            int scoopsOfIceCream = 0;
-
-            List<Flavour> customerFlavourList = new List<Flavour>();
-            List<Topping> customerToppingList = new List<Topping>();
-
-            IceCream iceCream = null;
-            if (typeOfIceCream.ToLower() == "cup")
-            {
-                iceCream = new Cup(typeOfIceCream, scoopsOfIceCream, customerFlavourList, customerToppingList);
-            }
-            else if (typeOfIceCream.ToLower() == "cone")
-            {
-                iceCream = new Cone(typeOfIceCream, scoopsOfIceCream, customerFlavourList, customerToppingList, false);
-                Cone cone = (Cone)iceCream;
-                cone.ModifyConeFlavour();
-            }
-            else
-            {
-                iceCream = new Waffle(typeOfIceCream, scoopsOfIceCream, customerFlavourList, customerToppingList, "");
-                Waffle waffle = (Waffle)iceCream;
-                waffle.ModifyWaffleFlavour();
-            }
-
-            iceCream.ModifyIceCreamScoops();
-            iceCream.ModifyIceCreamFlavours();
-            iceCream.ModifyIceCreamToppings();
-            return iceCream;
-        }
-
-        static string GetIceCreamType()
-        {
-            Console.WriteLine("Types of Ice Cream Available");
-            Console.WriteLine("[1] Cup \n" + "[2] Cone \n" + "[3] Waffle" + "\n");
-
-            string iceCreamOption;
-            while (true)
-            {
-                Console.Write("Enter type of ice cream desired: ");
-                iceCreamOption = Console.ReadLine();
-
-                if (iceCreamOption == "1" || iceCreamOption.ToLower() == "cup")
-                {
-                    return "Cup";
-                }
-                else if (iceCreamOption == "2" || iceCreamOption.ToLower() == "cone")
-                {
-                    return "Cone";
-                }
-                else if (iceCreamOption == "3" || iceCreamOption.ToLower() == "waffle")
-                {
-                    return "Waffle";
-                }
-                else
-                {
-                    Console.WriteLine("Please enter an available option that is shown above.");
-                }
-            }
-        }
-
         static int OrderModificationMenu()
         {
             Console.WriteLine("Options to Modify your Order");
@@ -488,7 +422,7 @@ namespace S10257400_PRG2Assignment
                 }
                 catch (FormatException)
                 {
-                    Console.WriteLine("Invalid option. Please enter an option from 0 to 3 as seen in above the menu.");
+                    Console.WriteLine("Invalid option. Please enter an option from 0 to 3 as seen in above the menu. \n");
                     continue;
                 }
 
@@ -498,7 +432,7 @@ namespace S10257400_PRG2Assignment
                 }
                 else
                 {
-                    Console.WriteLine("Invalid option. Please enter an option from 0 to 3 as seen in above the menu.");
+                    Console.WriteLine("Invalid option. Please enter an option from 0 to 3 as seen in above the menu. \n");
                 }
             }
         }
@@ -519,12 +453,12 @@ namespace S10257400_PRG2Assignment
                     }
                     else
                     {
-                        Console.WriteLine("Enter a number that corresponds to the Ice Cream to change");
+                        Console.WriteLine("Enter a number that corresponds to an Ice Cream in your order \n");
                     }
                 }
                 catch (FormatException)
                 {
-                    Console.WriteLine("Enter a number that corresponds to the Ice Cream to change");
+                    Console.WriteLine("Enter a number that corresponds to an Ice Cream in your order \n");
                 }
             }
 
@@ -560,12 +494,12 @@ namespace S10257400_PRG2Assignment
 
                     if (year < 2023)
                     {
-                        Console.WriteLine("Please enter a year starting from 2023");
+                        Console.WriteLine("Please enter a year starting from 2023 \n");
                         continue;
                     }
                     else if (year > current.Year)
                     {
-                        Console.WriteLine("Please enter the current year or years that came before the current year");
+                        Console.WriteLine("Please enter the current year or an an earlier year \n");
                         continue;
                     }
                     else
@@ -575,7 +509,7 @@ namespace S10257400_PRG2Assignment
                 }
                 catch (FormatException)
                 {
-                    Console.WriteLine("Please enter a valid year");
+                    Console.WriteLine("Please enter a valid year \n");
                 }
             }
 

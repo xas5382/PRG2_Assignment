@@ -58,16 +58,16 @@ namespace S10257400_PRG2Assignment
         {
             List<int> availableOption = new List<int> { 1, 2, 3 };
             availableOption.Remove(Scoops);
-
+            Console.WriteLine();
             while (true)
             {
                 if (availableOption.Count() == 3)
                 {
-                    Console.Write("\n" + "How many scoops of Ice Cream do you want? ");
+                    Console.Write("How many scoops of Ice Cream do you want? ");
                 }
                 else
                 {
-                    Console.Write("\n" + "Enter the updated number of Ice Cream scoops: ");
+                    Console.Write("Enter the updated number of Ice Cream scoops: ");
                 }
 
                 string numIceCreamScoops = Console.ReadLine();
@@ -82,7 +82,7 @@ namespace S10257400_PRG2Assignment
                     }
                     else if (intNumIceCreamScoops == Scoops)
                     {
-                        Console.WriteLine($"Please do not enter the previously entered quantity of {Scoops} sccops of Ice Cream");
+                        Console.WriteLine($"Please do not enter the previously entered quantity of {Scoops} scoops of Ice Cream");
                     }
                     else
                     {
@@ -92,7 +92,7 @@ namespace S10257400_PRG2Assignment
                         }
                         else
                         {
-                            Console.WriteLine("Invalid number of ice cream scoops ordered. Please enter a quantity from 1 to 3.");
+                            Console.WriteLine("Invalid number of ice cream scoops ordered. Please enter a quantity from 1 to 3. \n");
                         }
                     }
                 }
@@ -117,7 +117,7 @@ namespace S10257400_PRG2Assignment
                     {
                         if (availableOption.Count() == 2)
                         {
-                            Console.WriteLine($"Please enter a quantity that is either {availableOption[0]} scoop(s) or {availableOption[1]} scoop(s)");
+                            Console.WriteLine($"Please enter a quantity that is either {availableOption[0]} scoop(s) or {availableOption[1]} scoop(s) \n");
                         }
                         else
                         {
@@ -251,7 +251,7 @@ namespace S10257400_PRG2Assignment
                 }
 
                 string chosenTopping = Console.ReadLine();
-                chosenTopping.Replace(" ", "");
+                chosenTopping = chosenTopping.Replace(" ", "");
                 if (chosenTopping == "1" || chosenTopping.ToLower() == "sprinkles")
                 {
                     customerToppingList.Add(new Topping("Sprinkles"));
