@@ -54,8 +54,9 @@ namespace S10257400_PRG2Assignment
                     Console.WriteLine();
                     Order customerCurrentOrder = customer.MakeOrder();
                     customer.CurrentOrder = customerCurrentOrder;
-
-                    while (true)   // while loop to add a another ice cream to the current order and ensure user input is validated
+                    
+                    // while loop to add a another ice cream to the current order and ensure user input is validated
+                    while (true)   
                     {
                         Console.Write("\n" + "Would you like to add another ice cream to the order [Y/N]? ");
                         string addIceCream = Console.ReadLine();
@@ -118,18 +119,18 @@ namespace S10257400_PRG2Assignment
                         int optionChosen = OrderModificationMenu();
                         Console.WriteLine();
                         
-                        if (optionChosen == 1)   // customer wants to modify an IceCream in current order
+                        if (optionChosen == 1)   // modify an IceCream in customer's current order
                         {
                             int iceCreamToChangeIndex = GetIceCreamToChange(customerOrder);
                             Console.WriteLine();
                             customerOrder.ModifyIceCream(iceCreamToChangeIndex);
                         }
-                        else if (optionChosen == 2)   // customer wants to add an IceCream to current order
+                        else if (optionChosen == 2)   // add an IceCream to customer's current order
                         {
                             customer.MakeOrder();
                             Console.WriteLine("\n" + "Ice Cream has been successfully added to your current order");
                         }
-                        else if (optionChosen == 3)   // customer wants to remove an IceCream from current order
+                        else if (optionChosen == 3)   // remove an IceCream from customer's current order
                         {
                             // remove ice cream from current order only if there is more than 1 ice cream
                             if (customerOrder.IceCreamList.Count() == 1)   
@@ -218,6 +219,7 @@ namespace S10257400_PRG2Assignment
                 int numOfScoops = Convert.ToInt32(info[5]);
                 string waffleFlavour = info[7];
 
+                // create the completed order's list of ice cream flavours
                 List<Flavour> flavourList = new List<Flavour>();
                 for (int x = 8; x < 11; x++)
                 {
@@ -236,6 +238,7 @@ namespace S10257400_PRG2Assignment
                     }
                 }
 
+                // create the completed order's list of ice cream toppings 
                 List<Topping> toppingList = new List<Topping>();
                 for (int x = 11; x < 15; x++)
                 {
@@ -247,19 +250,17 @@ namespace S10257400_PRG2Assignment
                 }
 
                 IceCream iceCream = null;
-                if (info[6] == "TRUE" || info[6] == "FALSE")
+                if (option == "Cup")
+                {
+                    iceCream = new Cup(option, numOfScoops, flavourList, toppingList);
+                }
+                else if (option == "Cone")
                 {
                     iceCream = new Cone(option, numOfScoops, flavourList, toppingList, Convert.ToBoolean(info[6]));
                 }
-
-                if (waffleFlavour != "")
+                else if (option == "Waffle")
                 {
                     iceCream = new Waffle(option, numOfScoops, flavourList, toppingList, waffleFlavour);
-                }
-
-                if (info[6] == "" && waffleFlavour == "")
-                {
-                    iceCream = new Cup(option, numOfScoops, flavourList, toppingList);
                 }
 
                 bool addIceCream = false;
@@ -461,12 +462,12 @@ namespace S10257400_PRG2Assignment
                     }
                     else
                     {
-                        Console.WriteLine("Enter a number that corresponds to an Ice Cream in your order \n");
+                        Console.WriteLine("Please enter a number that corresponds to an Ice Cream in your order \n");
                     }
                 }
                 catch (FormatException)
                 {
-                    Console.WriteLine("Enter a number that corresponds to an Ice Cream in your order \n");
+                    Console.WriteLine("Please enter a number that corresponds to an Ice Cream in your order \n");
                 }
             }
 
@@ -474,8 +475,8 @@ namespace S10257400_PRG2Assignment
         }
 
         // This method does not take into consideration the points used by a customer, if any, when he/she is making payment for
-        // his/her order as I would not know how many points are used, if any, seeing as how I am doing solo and I am not implementing
-        // advanced option (a). The orders.csv also does not tell us how many points were used when the customer paid for their order.
+        // his/her order as I would not know how many points are used, if any. This is because I am doing solo and I am not implementing
+        // advanced option (a). The orders.csv also does not tell me how many points were used when the customer paid for their order.
         //
         // However, the free ice cream that is given on a customer's birthday will be calculated and the cost of that ice cream will be
         // deducted from the total price of that customer's order.

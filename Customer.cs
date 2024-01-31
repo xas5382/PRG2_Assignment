@@ -79,20 +79,20 @@ namespace S10257400_PRG2Assignment
             // placeholder data that will be modifed
             while (true)
             {
-                Console.Write("Enter type of ice cream desired: ");
+                Console.Write("Which type of ice cream do you want? ");
                 iceCreamOption = Console.ReadLine();
 
                 if (iceCreamOption == "1" || iceCreamOption.ToLower() == "cup")
                 {
-                    iceCream = new Cup("Cup", -1, new List<Flavour>(), new List<Topping>());   // new ice cream with placeholder data
+                    iceCream = new Cup("Cup", -1, new List<Flavour>(), new List<Topping>());   // new Cup ice cream with placeholder data
                 }
                 else if (iceCreamOption == "2" || iceCreamOption.ToLower() == "cone")
                 {
-                    iceCream = new Cone("Cone", -1, new List<Flavour>(), new List<Topping>(), false);   // new ice cream with placeholder data
+                    iceCream = new Cone("Cone", -1, new List<Flavour>(), new List<Topping>(), false);   // new Cone ice cream with placeholder data
                 }
                 else if (iceCreamOption == "3" || iceCreamOption.ToLower() == "waffle")
                 {
-                    iceCream = new Waffle("Waffle", -1, new List<Flavour>(), new List<Topping>(), "");   // new ice cream with placeholder data
+                    iceCream = new Waffle("Waffle", -1, new List<Flavour>(), new List<Topping>(), "");   // new Waffle ice cream with placeholder data
                 }
                 else
                 {
@@ -122,8 +122,8 @@ namespace S10257400_PRG2Assignment
             iceCream.ModifyIceCreamFlavours();
             iceCream.ModifyIceCreamToppings();
             
-            // append the ice cream object to a new order or the customer's CurrentOrder before returning eiher one of them to enqueue
-            // in the queue system
+            // append the ice cream object to a new order or the customer's CurrentOrder before returning either one of them to be
+            // enqueued in the queue system
             if (CurrentOrder != null)
             {
                 CurrentOrder.AddIceCream(iceCream);

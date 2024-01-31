@@ -119,7 +119,14 @@ namespace S10257400_PRG2Assignment
 
         public override string ToString()
         {
-            return base.ToString() + "Waffle Flavour \n" +  $"- {waffleFlavour} \n"; 
+            if (WaffleFlavour == "Original")
+            {
+                return base.ToString() + "Waffle Flavour \n" + $"- {WaffleFlavour} \n";
+            }
+            else
+            {
+                return base.ToString() + "Waffle Flavour \n" + $"- {WaffleFlavour} (Premium) \n";
+            }
         }
     }
 }

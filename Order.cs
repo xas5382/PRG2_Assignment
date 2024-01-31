@@ -120,7 +120,7 @@ namespace S10257400_PRG2Assignment
 
             int choice;
 
-            // whiil loop to ensure user input is an integer between 0 and and the total number of options in menuList
+            // while loop to ensure user input is an integer between 0 and and the total number of options in menuList
             // to prevent an exception from occuring
             while (true)        
             {
@@ -151,9 +151,10 @@ namespace S10257400_PRG2Assignment
         public IceCream ModifyIceCreamType(IceCream iceCreamToChange)
         {
             List<string> iceCreamTypeList = new List<string> { "Cup", "Cone", "Waffle" };
-
-            int x = 1;
             iceCreamTypeList.Remove(iceCreamToChange.Option);
+            
+            int x = 1;
+            // display types of ice cream that the user did not previously order to prevent user from entering the previous option            
             Console.WriteLine("\n" + "Types of Ice Cream you can change to");
             foreach (string iceCreamOption in iceCreamTypeList)
             {
@@ -165,9 +166,10 @@ namespace S10257400_PRG2Assignment
 
             while (true)
             {
-                Console.Write("What do you want to change it to? ");
+                Console.Write("What type of ice cream do you want? ");
                 string newIceCream = Console.ReadLine();
 
+                // create the modified ice cream before returning it to be added to the order
                 if ((newIceCream == "1" && iceCreamTypeList[0] == "Cup") || (newIceCream == "2" && iceCreamTypeList[1] == "Cup") || newIceCream == "cup" || newIceCream == "Cup")
                 {
                     IceCream iceCream = new Cup("Cup", iceCreamToChange.Scoops, iceCreamToChange.Flavours, iceCreamToChange.Toppings);

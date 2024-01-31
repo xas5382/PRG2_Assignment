@@ -61,6 +61,8 @@ namespace S10257400_PRG2Assignment
             availableOption.Remove(Scoops);
             Console.WriteLine();
 
+            // while loop to validate the user choice of number of ice creams scoops to ensure the customer does not order the same
+            // number of ice cream scoops
             while (true)
             {
                 if (availableOption.Count() == 3)
@@ -157,7 +159,7 @@ namespace S10257400_PRG2Assignment
                 bool premiumIceCream = false;
                 int flavourIndex;
 
-                Console.Write($"Enter your {numberSuffix[count]} ice cream flavour: ");
+                Console.Write(Scoops == 1? $"Which ice cream flavour do you want? " : $"What is your {numberSuffix[count]} ice cream flavour? ");
                 count++;
                 chosenFlavour = Console.ReadLine();
 
@@ -245,7 +247,8 @@ namespace S10257400_PRG2Assignment
                 string[] info = csvLines[i].Split(",");
                 Console.WriteLine($"[{i}] {info[0],-13} {info[1]}");
             }
-            Console.WriteLine("[0] {0,-13} {1}", "No Toppings", "0.00" + "\n");
+            Console.WriteLine("[0] {0,-13} {1}", "No Toppings", "0.00 \n");
+            Console.WriteLine("A maximum of 4 toppings can be ordered \n");
 
             string[] numberSuffix = { "2nd", "3rd", "4th" };
 
@@ -299,22 +302,29 @@ namespace S10257400_PRG2Assignment
             iceCreamInfo += ($"{Option} Ice Cream \n");
             iceCreamInfo += ($"{Scoops} Scoop(s) of Ice Cream \n");
 
-            Dictionary<string, int> scoopesPerFlavour = new Dictionary<string, int>();
+            Dictionary<string, int> scoopsPerFlavour = new Dictionary<string, int>();
             for (int i = 0; i < Flavours.Count(); i++)
             {
-                if (scoopesPerFlavour.ContainsKey(Flavours[i].Type))
+                if (scoopsPerFlavour.ContainsKey(Flavours[i].Type))
                 {
-                    scoopesPerFlavour[Flavours[i].Type] += 1;
+                    scoopsPerFlavour[Flavours[i].Type] += 1;
                 }
                 else
                 {
-                    scoopesPerFlavour[Flavours[i].Type] = 1;
+                    scoopsPerFlavour[Flavours[i].Type] = 1;
                 }
             }
 
-            foreach (KeyValuePair <string, int> kvp in scoopesPerFlavour)
+            foreach (KeyValuePair<string, int> kvp in scoopsPerFlavour)
             {
-                iceCreamInfo += ($"- {kvp.Value} {kvp.Key} \n");
+                if (kvp.Key == "Durian" || kvp.Key == "Ube" || kvp.Key == "Sea salt")
+                {
+                    iceCreamInfo += ($"- {kvp.Value} {kvp.Key} (Premium) \n");
+                }
+                else
+                {
+                    iceCreamInfo += ($"- {kvp.Value} {kvp.Key} (Standard) \n");
+                }
             }
 
             iceCreamInfo += ("Topping(s) \n");
