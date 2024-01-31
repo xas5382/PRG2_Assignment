@@ -159,7 +159,7 @@ namespace S10257400_PRG2Assignment
                 bool premiumIceCream = false;
                 int flavourIndex;
 
-                Console.Write(Scoops == 1? $"Which ice cream flavour do you want? " : $"What is your {numberSuffix[count]} ice cream flavour? ");
+                Console.Write(Scoops == 1? $"Which ice cream flavour do you want? " : $"What will your {numberSuffix[count]} ice cream flavour be? ");
                 count++;
                 chosenFlavour = Console.ReadLine();
 
