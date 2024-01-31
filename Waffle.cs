@@ -66,7 +66,7 @@ namespace S10257400_PRG2Assignment
         // This method is not found in the class diagram
         public void ModifyWaffleFlavour()   // method to modify waffle flavour, not found in the class diagram
         {
-            List<string> waffleFlavourList = new List<string> { "Original , 0", "Red Velvet, 3", "Charcoal, 3", "Pandan, 3" };
+            List<string> waffleFlavourList = new List<string> { "Original, 0", "Red Velvet, 3", "Charcoal, 3", "Pandan, 3" };
             
             if (waffleFlavourList.Contains(WaffleFlavour))
             {
@@ -120,9 +120,10 @@ namespace S10257400_PRG2Assignment
 
         public override string ToString()
         {
+            Console.WriteLine(WaffleFlavour);
             if (WaffleFlavour == "Original")
             {
-                return base.ToString() + "Waffle Flavour \n" + $"- {WaffleFlavour} \n";
+                return base.ToString() + "Waffle Flavour \n" + $"- {WaffleFlavour} (Standard) \n";
             }
             else
             {

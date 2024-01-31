@@ -451,7 +451,7 @@ namespace S10257400_PRG2Assignment
             // prevent occurences where the user input does not map to an ice cream
             while (true)
             {
-                Console.Write("Which Ice Cream do you want to change? ");
+                Console.Write("Which Ice Cream do you want to choose? ");
                 try
                 {
                     iceCreamToChangeIndex = Convert.ToInt32(Console.ReadLine());
@@ -491,6 +491,7 @@ namespace S10257400_PRG2Assignment
                 monthlyProfitsDict.Add(month, 0);
             }
 
+            Console.WriteLine();
             int year;
 
             // while loop to validate to user's entry of a year to ensure it is a year that contains completed ice cream orders
