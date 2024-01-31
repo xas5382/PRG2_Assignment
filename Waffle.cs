@@ -63,6 +63,7 @@ namespace S10257400_PRG2Assignment
             return price;
         }
 
+        // This method is not found in the class diagram
         public void ModifyWaffleFlavour()   // method to modify waffle flavour, not found in the class diagram
         {
             List<string> waffleFlavourList = new List<string> { "Original , 0", "Red Velvet, 3", "Charcoal, 3", "Pandan, 3" };
@@ -109,7 +110,7 @@ namespace S10257400_PRG2Assignment
                 }
                 else
                 {
-                    Console.WriteLine("Please reply with an option from the above menu");
+                    Console.WriteLine("Please reply with an option from the above menu \n");
                     continue;
                 }
 

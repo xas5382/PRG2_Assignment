@@ -63,13 +63,14 @@ namespace S10257400_PRG2Assignment
             return price;
         }
 
+        // This method is not found in the class diagram
         public void ModifyConeFlavour()   // method to modify cone flavour, not found in the class diagram
         {
             Console.WriteLine();
 
             while (true)
             {
-                Console.Write(Dipped ? "Do you want to change Ice Cream cone to an orginal cone [Y/N]? " : "Do you want to upgrade Ice Cream cone to a chocolate cone [Y/N]? ");
+                Console.Write(Dipped ? "Do you want to change ice cream cone to an orginal cone [Y/N]? " : "Do you want to upgrade ice cream cone to a chocolate cone [Y/N]? ");
                 string changeCone = Console.ReadLine();
 
                 if (changeCone.ToLower() == "y" && Dipped == false)
@@ -88,7 +89,7 @@ namespace S10257400_PRG2Assignment
                 }
                 else if (changeCone.ToLower() != "y" && changeCone.ToLower() != "n")
                 {
-                    Console.WriteLine("Please reply with either \"Y\" or \"N\".");
+                    Console.WriteLine("Please reply with either \"Y\" or \"N\" \n");
                 }
             }
         }

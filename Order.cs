@@ -55,12 +55,13 @@ namespace S10257400_PRG2Assignment
         public void ModifyIceCream(int index)   // method to determine how to modify ice cream object, not found in the class diagram
         {
             IceCream iceCreamToChange = iceCreamList[index];
+            IceCream originalIceCream = iceCreamToChange;
             int modificationChoice = IceCreamModificationMenu(iceCreamToChange);
 
             if (modificationChoice == 1)
             {
                 IceCream newIceCream = ModifyIceCreamType(iceCreamToChange);
-                DeleteIceCream(index - 1);
+                DeleteIceCream(index);
                 AddIceCream(newIceCream);
             }
             else if (modificationChoice == 2)
@@ -85,6 +86,11 @@ namespace S10257400_PRG2Assignment
             {
                 Waffle waffle = (Waffle)iceCreamToChange;
                 waffle.ModifyWaffleFlavour();
+            }
+
+            if (modificationChoice != 0)
+            {
+                Console.WriteLine("\n" + "Ice Cream has been updated successfully");
             }
         }
 
