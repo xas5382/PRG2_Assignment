@@ -138,8 +138,8 @@ namespace S10257400_PRG2Assignment
                             }
                             else
                             {
-                                int iceCreamIndex = GetIceCreamToChange(customerOrder) - 1;
-                                customerOrder.DeleteIceCream(iceCreamIndex);
+                                int iceCreamToChangeIndex = GetIceCreamToChange(customerOrder);
+                                customerOrder.DeleteIceCream(iceCreamToChangeIndex);
                                 Console.WriteLine("\n" + "Order has been successfully deleted");
                             }
                         }
@@ -266,6 +266,7 @@ namespace S10257400_PRG2Assignment
 
                 // foreach loop to check if the order in which an ice cream object belongs alreadt exits in the customer's order history
                 // check using the attribute TimeRecieved as that attribute is the most unique
+                //
                 // if order exists, add ice cream object to the back of the cutomer's order history
                 foreach (KeyValuePair<int, Customer> kvp in customerDict)   
                 {
@@ -305,7 +306,8 @@ namespace S10257400_PRG2Assignment
 
             int choice;
 
-            while (true)        // Loop to ensure user input is an integer between 0 and 5
+            // while loop to ensure user input is an integer between 0 and 5 to prevent exceptions from occuring later on
+            while (true)        
             {
                 Console.Write("Enter your option: ");
 
@@ -332,7 +334,7 @@ namespace S10257400_PRG2Assignment
 
         static void DisplayCustomers(Dictionary<int, Customer> customerDict)
         {
-            Console.WriteLine("\n" + "Display Customer Information" + "\n" + "----------------------------");
+            Console.WriteLine("\n" + "Customer Information" + "\n" + "---------------------");
             Console.WriteLine("{0,-11} {1,-12} {2,-13} {3,-11} {4,-9} {5}", "Name", "Member ID", "DOB", "Status", "Points", "Punch Card");
 
             foreach (KeyValuePair<int, Customer> kvp in customerDict)
@@ -377,7 +379,9 @@ namespace S10257400_PRG2Assignment
             Console.WriteLine();
 
             int memberID;
-            while (true)   // while loop to validate the customer's choice of member ID
+
+            // while loop to validate the customer's choice of member ID to prevent exceptions from occuring later on
+            while (true)   
             {
                 Console.Write("Enter the member ID: ");
 
@@ -411,8 +415,9 @@ namespace S10257400_PRG2Assignment
                 "[0] Exit \n");
 
             int choice;
-
-            while (true)        // while loop to ensure user input is an integer between 0 and 3
+            
+            // while loop to ensure user input is an integer between 0 and 3 to prevent exceptions from occuring later on
+            while (true)        
             {
                 Console.Write("Enter your option: ");
 
@@ -440,6 +445,9 @@ namespace S10257400_PRG2Assignment
         static int GetIceCreamToChange(Order customerOrder)
         {
             int iceCreamToChangeIndex;
+
+            // while loop to ensure user input is an integer that corresponds to an ice cream in his/her order to
+            // prevent occurences where the user input does not map to an ice cream
             while (true)
             {
                 Console.Write("Which Ice Cream do you want to change? ");
@@ -462,14 +470,15 @@ namespace S10257400_PRG2Assignment
                 }
             }
 
-            return iceCreamToChangeIndex;
+            return (iceCreamToChangeIndex - 1);
         }
 
-        // This method does not take into consideration the points used, if any, when he/she is making payment for his/her order
-        // as they is no way for me to know how many points are used, if any, seeing as how I am doing solo and I am not implementing
-        // advanced option (a).
-        // However, the free ice cream give on a customer birthday will be calculated and the cost of that ice cream will be deducted
-        // from the total price of that customer's order.
+        // This method does not take into consideration the points used by a customer, if any, when he/she is making payment for
+        // his/her order as I would not know how many points are used, if any, seeing as how I am doing solo and I am not implementing
+        // advanced option (a). The orders.csv also does not tell us how many points were used when the customer paid for their order.
+        //
+        // However, the free ice cream that is given on a customer's birthday will be calculated and the cost of that ice cream will be
+        // deducted from the total price of that customer's order.
         static void DisplayAmountSpent(Dictionary<int, Customer> customerDict)  
         {
             Dictionary<string, double> monthlyProfitsDict = new Dictionary<string, double>();
@@ -483,6 +492,7 @@ namespace S10257400_PRG2Assignment
 
             int year;
 
+            // while loop to validate to user's entry of a year to ensure it is a year that contains completed ice cream orders
             while (true)
             {
                 Console.Write("Enter the year: ");

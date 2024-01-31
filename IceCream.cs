@@ -54,11 +54,13 @@ namespace S10257400_PRG2Assignment
 
         public abstract double CalculatePrice();
 
+        // This method is not found in the class diagram
         public void ModifyIceCreamScoops()
         {
             List<int> availableOption = new List<int> { 1, 2, 3 };
             availableOption.Remove(Scoops);
             Console.WriteLine();
+
             while (true)
             {
                 if (availableOption.Count() == 3)
@@ -82,13 +84,13 @@ namespace S10257400_PRG2Assignment
                     }
                     else if (intNumIceCreamScoops == Scoops)
                     {
-                        Console.WriteLine($"Please do not enter the previously entered quantity of {Scoops} scoops of Ice Cream");
+                        Console.WriteLine($"Please do not enter the previously entered quantity of {Scoops} scoops of Ice Cream \n");
                     }
                     else
                     {
                         if (availableOption.Count() == 2)
                         {
-                            Console.WriteLine($"Please enter a quantity that is either {availableOption[0]} scoop(s) or {availableOption[1]} scoop(s)");
+                            Console.WriteLine($"Please enter a quantity that is either {availableOption[0]} scoop(s) or {availableOption[1]} scoop(s) \n");
                         }
                         else
                         {
@@ -128,11 +130,13 @@ namespace S10257400_PRG2Assignment
             }
         }
 
+        // This method is not found in the class diagram
         public void ModifyIceCreamFlavours()
         {
             List<string> iceCreamFlavourList = new List<string>();
             string[] csvLines = File.ReadAllLines("flavours.csv");
 
+            // display available ice cream flavours to limit the user's choice and prevent a response that is outside the available scope
             Console.WriteLine("\n" + "Flavours of Ice Cream that are Available and their Cost" + "\n" + "{0,-17} {1}", "Flavour", "Add On Cost");
             for (int i = 1; i < csvLines.Length; i++)
             {
@@ -145,14 +149,17 @@ namespace S10257400_PRG2Assignment
             List<Flavour> customerflavourList = new List<Flavour>();
             string chosenFlavour;
             int scoopsOfIceCream = Scoops;
+            string[] numberSuffix = { "1st", "2nd", "3rd" };
+            int count = 0;
 
             while (scoopsOfIceCream > 0)
             {
                 bool premiumIceCream = false;
-                Console.Write("Enter your desired flavour of ice cream: ");
-                chosenFlavour = Console.ReadLine();
-
                 int flavourIndex;
+
+                Console.Write($"Enter your {numberSuffix[count]} ice cream flavour: ");
+                count++;
+                chosenFlavour = Console.ReadLine();
 
                 try
                 {
@@ -199,6 +206,7 @@ namespace S10257400_PRG2Assignment
                             break;
                         }
                     }
+
                     if (chosenFlavour.ToLower() == "noflavour")
                     {
                         chosenFlavour = $"No Flavour";
@@ -224,11 +232,13 @@ namespace S10257400_PRG2Assignment
             Flavours = customerflavourList;
         }
 
+        // This method is not found in the class diagram
         public void ModifyIceCreamToppings()
         {
             List<Topping> customerToppingList = new List<Topping>();
             string[] csvLines = File.ReadAllLines("toppings.csv");
 
+            // display available toppings options to limit the user's choice and prevent a response that is outside the available scope
             Console.WriteLine("\n" + "Ice Cream Toppings that are Available and their Cost" + "\n" + "{0,-17} {1}", "Toppings", "Add On Cost");
             for (int i = 1; i < csvLines.Length; i++)
             {
@@ -339,16 +349,3 @@ namespace S10257400_PRG2Assignment
         }
     }
 }
-
-/*
- 
-            if (Toppings.SequenceEqual(customerToppingList))
-            {
-                
-            }
-            else
-            {
-                Console.WriteLine("\n" + "The modified list of Ice Cream Topping(s) is the same as the original list of Ice Cream Topping(s)");
-            }
-            Console.WriteLine("\n" + "The modified list of Ice Cream Flavours is the same as the original list of Ice Cream Flavours");
- */

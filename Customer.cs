@@ -74,6 +74,9 @@ namespace S10257400_PRG2Assignment
 
             IceCream iceCream = null;
             string iceCreamOption;
+
+            // while loop to determine the type (cup/cone/waffle) of ice cream the user wants before creating the ice cream with
+            // placeholder data that will be modifed
             while (true)
             {
                 Console.Write("Enter type of ice cream desired: ");
@@ -81,15 +84,15 @@ namespace S10257400_PRG2Assignment
 
                 if (iceCreamOption == "1" || iceCreamOption.ToLower() == "cup")
                 {
-                    iceCream = new Cup("Cup", -1, new List<Flavour>(), new List<Topping>());
+                    iceCream = new Cup("Cup", -1, new List<Flavour>(), new List<Topping>());   // new ice cream with placeholder data
                 }
                 else if (iceCreamOption == "2" || iceCreamOption.ToLower() == "cone")
                 {
-                    iceCream = new Cone("Cone", -1, new List<Flavour>(), new List<Topping>(), false);
+                    iceCream = new Cone("Cone", -1, new List<Flavour>(), new List<Topping>(), false);   // new ice cream with placeholder data
                 }
                 else if (iceCreamOption == "3" || iceCreamOption.ToLower() == "waffle")
                 {
-                    iceCream = new Waffle("Waffle", -1, new List<Flavour>(), new List<Topping>(), "");
+                    iceCream = new Waffle("Waffle", -1, new List<Flavour>(), new List<Topping>(), "");   // new ice cream with placeholder data
                 }
                 else
                 {
@@ -101,7 +104,8 @@ namespace S10257400_PRG2Assignment
                     break;
                 }
             }
-
+            
+            // modification of all placeholder values in the ice cream
             if (iceCream is Cone)
             {
                 Cone cone = (Cone)iceCream;
@@ -118,6 +122,8 @@ namespace S10257400_PRG2Assignment
             iceCream.ModifyIceCreamFlavours();
             iceCream.ModifyIceCreamToppings();
             
+            // append the ice cream object to a new order or the customer's CurrentOrder before returning eiher one of them to enqueue
+            // in the queue system
             if (CurrentOrder != null)
             {
                 CurrentOrder.AddIceCream(iceCream);

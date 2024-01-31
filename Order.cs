@@ -54,7 +54,7 @@ namespace S10257400_PRG2Assignment
 
         public void ModifyIceCream(int index)   // method to determine how to modify ice cream object, not found in the class diagram
         {
-            IceCream iceCreamToChange = iceCreamList[index - 1];
+            IceCream iceCreamToChange = iceCreamList[index];
             int modificationChoice = IceCreamModificationMenu(iceCreamToChange);
 
             if (modificationChoice == 1)
@@ -88,12 +88,15 @@ namespace S10257400_PRG2Assignment
             }
         }
 
-        public int IceCreamModificationMenu(IceCream iceCreamToChange)   // method to display types of modifications user can make to their ice cream object, not found in the class diagram
+        // This method is not found in the class diagram
+        public int IceCreamModificationMenu(IceCream iceCreamToChange)   
         {
             List<string> menuList = new List<string> { "Type of Ice Cream", "Number of Scoops", "Flavour of Ice Cream", 
                 "Toppings chosen", "Change the cone flavour", "Change the waffle flavour" };
             Console.WriteLine("Parts of Ice Cream that can be changed");
 
+            // remove options such "Change the cone flavour" or "Change the waffle flavour" depending on the ice cream object
+            // ordered to ensure users do not select the option
             if (iceCreamToChange is Cup)
             {
                 menuList.RemoveAt(5);
@@ -116,7 +119,10 @@ namespace S10257400_PRG2Assignment
             Console.WriteLine();
 
             int choice;
-            while (true)        // Loop to ensure user input is an integer between 0 and and the total number of options in menuList to prevent an error from occuring
+
+            // whiil loop to ensure user input is an integer between 0 and and the total number of options in menuList
+            // to prevent an exception from occuring
+            while (true)        
             {
                 Console.Write("Enter your option: ");
 
@@ -141,6 +147,7 @@ namespace S10257400_PRG2Assignment
             }
         }
 
+        // This method is not found in the class diagram
         public IceCream ModifyIceCreamType(IceCream iceCreamToChange)
         {
             List<string> iceCreamTypeList = new List<string> { "Cup", "Cone", "Waffle" };
@@ -233,14 +240,3 @@ namespace S10257400_PRG2Assignment
         }
     }
 }
-
-/*
-                if (iceCreamToChange is Cone)
-                {
-                    
-                }
-                else
-                {
-                    Console.WriteLine("\n" + "Ice Cream chosen in not a Cone Ice Cream" + "\n" + "Please choose a Cone Ice Cream");
-                }
- */
